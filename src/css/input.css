@@ -1,0 +1,49 @@
+.web-component input {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: var(--color);
+    padding: .33em .75em;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    display: block;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.web-component input:focus {
+    border-color: var(--border-color-focussed);
+}
+
+.web-component input.dirty {
+    border-color: var(--border-color-dirty);
+}
+
+.web-component label {
+    font-family: inherit;
+}
+
+
+label {
+    position: absolute;
+    top: 0;
+    left: .75rem;
+    padding: .37rem 8px 0 8px;
+    pointer-events: none;
+    transform-origin: 0 0;
+    transition: all .2s ease-out;
+    color: var(--label-color);
+    margin-bottom: 0;
+    box-sizing: border-box;
+}
+
+.web-component input.active~label, .web-component input:focus~label {
+    transform: translateY(-1rem) translateY(.1rem) scale(.8);
+    background-color: var(--background-color);
+
+}
+
+.web-component input:focus~label {
+    color: var(--border-color-focussed);
+}

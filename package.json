@@ -1,0 +1,53 @@
+{
+    "name": "web-components",
+    "version": "1.0.0",
+    "description": "An API-integrated set of material/bootstrap inspired form components",
+    "main": "webpack.www.config.js",
+    "scripts": {
+        "test": "jest",
+        "upgrade": "node ./upgrade.js",
+        "build": "npx webpack --config webpack.config.js;"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/aamasri/web-components.git"
+    },
+    "keywords": [
+        "components",
+        "bootstrap",
+        "material",
+        "api"
+    ],
+    "author": "Ananda Masri <ananda@auroraweb.ca> (https://auroraweb.ca)",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/aamasri/web-components/issues"
+    },
+    "homepage": "https://github.com/aamasri/web-components#readme",
+    "dependencies": {
+        "growl-js": "^1.0.10",
+        "superagent": "^6.1.0"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.12.10",
+        "@babel/core": "^7.12.10",
+        "@babel/plugin-transform-runtime": "^7.12.10",
+        "@babel/preset-env": "^7.12.11",
+        "@babel/preset-flow": "^7.12.1",
+        "autoprefixer": "^10.2.1",
+        "babel-loader": "^8.2.2",
+        "css-loader": "^5.0.1",
+        "file-loader": "^6.2.0",
+        "html-webpack-plugin": "^4.5.1",
+        "jest": "^26.6.3",
+        "mini-css-extract-plugin": "^1.3.4",
+        "node-sass": "^5.0.0",
+        "postcss": "^8.2.4",
+        "postcss-loader": "^4.1.0",
+        "sass-loader": "^10.1.1",
+        "style-loader": "^2.0.0",
+        "terser-webpack-plugin": "^5.1.1",
+        "webpack": "^5.15.0",
+        "webpack-cli": "^4.4.0"
+    }
+}
