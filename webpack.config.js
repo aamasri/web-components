@@ -67,8 +67,7 @@ const babelLoader = {
                     targets: '> 1.5%, not dead',
                     modules: false,   // by default, Babel rewrites modules to use CommonJS, which won’t tree-shake!
                 },
-            ],
-            '@babel/preset-flow'
+            ]
         ],
         cacheDirectory: true,    // speeds up babel compilation (default cache: node_modules/.cache/babel-loader)
     }
@@ -156,6 +155,11 @@ module.exports = (env, argv) => {
                 {
                     test: /\.(ttf|otf|eot|woff(2)?)$/,
                     use: [ fontFileLoader ]
+                },
+                // inline svg assets (for @aamasri/dialog icons)
+                {
+                    test: /\.svg$/,
+                    loader: 'svg-inline-loader'
                 },
             ]
         },

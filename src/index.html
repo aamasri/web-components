@@ -9,6 +9,14 @@
             font-family: sans-serif;
             padding: 1rem 10%;
             color: #888;
+            isplay: flex;
+            justify-content: space-around;
+        }
+
+
+        .web-component {
+            margin: 4rem 4vw;
+            flex-basis: 20rem;
         }
     </style>
 </head>
@@ -18,8 +26,13 @@
     <h1> Web Sampler</h1>
 
     <div class="web-component">
-        <input type="text" data-id="user-name" id="name" autocomplete="name" maxlength="40" required="" value="Ananda Masri">
+        <input type="text" data-id="user-name" data-validation-type="name" data-cache="user-name" id="name" autocomplete="name" required="" value="Ananda Masri">
         <label for="name">Full Name</label>
+    </div>
+
+    <div class="web-component">
+        <input type="email" data-id="user-name" id="email" autocomplete="email" required="" value="ananda.masri@gmail.com">
+        <label for="email">Email</label>
     </div>
 
 </body>

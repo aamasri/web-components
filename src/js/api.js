@@ -9,7 +9,7 @@ import growl from 'growl-js';
  *  // TODO refactor this for mdb controls
  **/
 /*
-export function highlightDirtyUI(inputs): void {
+export function highlightDirtyUI(inputs) {
     if (debug) console.debug('highlightDirtyUI', inputs);
 
     switch (typeof inputs) {
@@ -43,27 +43,8 @@ export function highlightDirtyUI(inputs): void {
         }
     });
 }
+*/
 
-
-
-
-
-/**
- * If we have a JWT then synchronize with the backend
- *
- **/
-export async function reSync() {
-    if (store.app.jwt) {
-        try {
-            const response = await transmit('read', 'all');
-            console.debug('reSync() transmit resolved with', response);
-            vuexStore.commit('update', response);
-        } catch (reSyncError) {
-            console.error('reSync() transmit rejected with', reSyncError);
-            growl({ message: reSyncError.message, type: 'error' });
-        }
-    }
-}
 
 
 
@@ -72,7 +53,9 @@ export async function reSync() {
 /**
  * Transmit changes to the backend database.
  *
- * data must be an object mutating either a single document or a single property inside a document
+ * @param {Object} payload - entity: { properties }.
+ *
+ * @returns {Object}
  **/
 export async function update(payload) {
     const entity = Object.keys(payload).join('');   // user/account
@@ -86,7 +69,7 @@ export async function update(payload) {
     } else {
         console.error('updateServer() returned', response.message);
         if (response.message)
-            growl({ message: response.message, type: 'error' });
+            growl({ message: response.message, type: 'error' }).then();
     }
 
     return response
@@ -96,9 +79,18 @@ export async function update(payload) {
 
 
 
-
+/**
+ * AJAX api call
+ *
+ * @param {'create' | 'read' | 'update' | 'delete'} type
+ * @param {string} entity - eg. 'user'.
+ * @param {Object} payload - document patch.
+ *
+ * @returns {Object}
+ */
 async function transmit(type, entity, payload = {}) {
     // insert auth token
+    const store = await import(/* webpackChunkName: "store" */ './store');
     if (store.app.jwt)
         payload.token = store.app.jwt;
     else
@@ -131,13 +123,9 @@ async function transmit(type, entity, payload = {}) {
             return { message: `System error: ${type} is not a recognized type`, status: 'error' };
     }
 
-    const baseUrl = require('../../../../.env.js').server.URL;
-
-    const superagent = (await import(/* webpackChunkName: "superagent" */ 'superagent')).default;
-    const endpoint = `${baseUrl}/api/${entity}`;
-
     try {
-        const { body } = await superagent(method, endpoint).send(payload).timeout(9000);
+        const superagent = (await import(/* webpackChunkName: "superagent" */ 'superagent')).default;
+        const { body } = await superagent(method, `/api/${entity}`).send(payload).timeout(9000);
 
         if (body)
             return { message: `${methodDescription} ${entity} succeeded.`, status: 'success', data: body };
@@ -151,8 +139,7 @@ async function transmit(type, entity, payload = {}) {
         // error.hostname
         // error.response
 
-        //if (debug)
-            console.debug('caught http request error', error);
+        if (debug) console.debug('caught http request error', error);
 
         let errorMessage = `Sorry, ${methodDescription} ${entity} `;
 
@@ -169,7 +156,7 @@ async function transmit(type, entity, payload = {}) {
         }
 
         if (error.status) {               // server responded with http error code eg. 30x, 40x, 50x
-            const HTTP = require('../../../../constants/http-codes');
+            const HTTP = await import(/* webpackChunkName: "http-codes" */ '../constants/http-codes');
             errorMessage += `failed with ${HTTP[error.status]} (HTTP code ${error.status})`;
             return { message: errorMessage, status: 'error' };
         }

@@ -1,5 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
+:root {
+    --bs-blue: #0d6efd;
+    --bs-indigo: #6610f2;
+    --bs-purple: #6f42c1;
+    --bs-pink: #d63384;
+    --bs-red: #dc3545;
+    --bs-orange: #fd7e14;
+    --bs-yellow: #ffc107;
+    --bs-green: #198754;
+    --bs-teal: #20c997;
+    --bs-cyan: #0dcaf0;
+    --bs-gray: #757575;
+    --bs-gray-dark: #4f4f4f;
+    --bs-primary: #1266f1;
+    --bs-secondary: #b23cfd;
+    --bs-success: #00b74a;
+    --bs-info: #39c0ed;
+    --bs-warning: #ffa900;
+    --bs-danger: #f93154;
+    --bs-light: #fbfbfb;
+    --bs-dark: #262626;
+    --bs-white: #fff;
+    --bs-black: #000;
+}
+
 .web-component {
     --font-family: Roboto, sans-serif;
     --background-color: #fff;
@@ -21,3 +46,14 @@
     padding: 0;
 }
 
+
+.web-component .invalid-feedback { display: none; }
+.web-component .is-invalid~.invalid-feedback {
+    display: block;
+    width: auto;
+    position: absolute;
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
+    line-height: 1;
+    color: var(--bs-danger);
+}
