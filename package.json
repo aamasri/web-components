@@ -1,64 +1,68 @@
 {
-    "name": "web-components",
-    "version": "0.0.5",
-    "versionDescription": "Packages upgraded.",
-    "description": "Shared components and services to promote code reuse but that don't warrant separate repos.",
-    "scripts": {
-        "upgrade": "node ./upgrade.js",
-        "build": "npx webpack --config webpack.config.js;",
-        "build-production": "npx webpack --config webpack.config.js --mode production;",
-        "publish": "node ./publish.js"
+  "name": "@aamasri/web-components",
+  "version": "0.0.6",
+  "versionDescription": "Added npm package.",
+  "description": "Shared components and services to promote code reuse but that don't warrant separate repos.",
+  "scripts": {
+    "upgrade": "node ./upgrade.js",
+    "build": "npx webpack --config webpack.config.js;",
+    "build-production": "npx webpack --config webpack.config.js --mode production;",
+    "publish": "node ./publish.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/aamasri/web-components.git"
+  },
+  "keywords": [
+    "components",
+    "bootstrap",
+    "material",
+    "api"
+  ],
+    "author": "Ananda Masri <ananda@auro.technology> (https://auro.technology)",
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
     },
-    "repository": {
-        "type": "git",
-        "url": "git+ssh://git@github.com/aamasri/web-components.git"
-    },
-    "keywords": [
-        "components",
-        "bootstrap",
-        "material",
-        "api"
-    ],
-    "author": "Ananda Masri <ananda@auroraweb.ca> (https://auroraweb.ca)",
-    "license": "ISC",
     "bugs": {
-        "url": "https://github.com/aamasri/web-components/issues"
-    },
-    "homepage": "https://github.com/aamasri/web-components#readme",
-    "dependencies": {
-        "@aamasri/dialog": "^1.1.4",
-        "ajv": "^8.x",
-        "ajv-errors": "^3.x",
-        "growl-js": "^1.0.x",
-        "libphonenumber-js": "^1.x",
-        "sane-email-validation": "^3.x",
-        "superagent": "^8.x",
-        "svelte": "^4.2.0",
-        "zxcvbn": "^4.4.2"
-    },
-    "devDependencies": {
-        "@babel/cli": "^7.12.10",
-        "@babel/core": "^7.12.10",
-        "@babel/plugin-transform-runtime": "^7.12.10",
-        "@babel/preset-env": "^7.12.11",
-        "autoprefixer": "^10.2.3",
-        "babel-loader": "^9.x",
-        "css-loader": "^6.x",
-        "file-loader": "^6.2.0",
-        "html-webpack-plugin": "^5.x",
-        "mini-css-extract-plugin": "^2.x",
-        "node-sass": "^9.x",
-        "postcss": "^8.2.4",
-        "postcss-loader": "^7.x",
-        "sass-loader": "^13.x",
-        "style-loader": "^3.x",
-        "stylelint": "^15.x",
-        "stylelint-config-standard": "^34.x",
-        "stylus": "^0.x",
-        "stylus-loader": "^7.x",
-        "svg-inline-loader": "^0.8.2",
-        "terser-webpack-plugin": "^5.1.1",
-        "webpack": "^5.16.0",
-        "webpack-cli": "^5.x"
-    }
+    "url": "https://github.com/aamasri/web-components/issues"
+  },
+  "homepage": "https://github.com/aamasri/web-components#readme",
+  "dependencies": {
+    "@aamasri/dialog": "^1.1.4",
+    "ajv": "^8.x",
+    "ajv-errors": "^3.x",
+    "growl-js": "^1.0.x",
+    "libphonenumber-js": "^1.x",
+    "sane-email-validation": "^3.x",
+    "superagent": "^8.x",
+    "svelte": "^4.2.0",
+    "zxcvbn": "^4.4.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/plugin-transform-runtime": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "autoprefixer": "^10.2.3",
+    "babel-loader": "^9.x",
+    "css-loader": "^6.x",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.x",
+    "mini-css-extract-plugin": "^2.x",
+    "node-sass": "^9.x",
+    "postcss": "^8.2.4",
+    "postcss-loader": "^7.x",
+    "sass-loader": "^13.x",
+    "style-loader": "^3.x",
+    "stylelint": "^15.x",
+    "stylelint-config-standard": "^34.x",
+    "stylus": "^0.x",
+    "stylus-loader": "^7.x",
+    "svg-inline-loader": "^0.8.2",
+    "terser-webpack-plugin": "^5.1.1",
+    "webpack": "^5.16.0",
+    "webpack-cli": "^5.x"
+  },
+  "main": "publish.js"
 }

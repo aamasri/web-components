@@ -43,4 +43,7 @@ console.info(`  git pushing...`);
 runShell(`git push origin master :refs/tags/latest`);
 runShell(`git push origin master --tags`);
 
+console.info(`  publishing to npm...`);
+runShell(`npm publish`);
+
 process.exit(0);
