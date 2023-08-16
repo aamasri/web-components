@@ -1,4 +1,3 @@
-const debug: boolean = true;
 const store = { data: {} };
 
 
