@@ -1,9 +1,8 @@
 {
     "name": "web-components",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "versionDescription": "save DOM mutator",
-    "description": "An API-integrated set of material/bootstrap inspired form components",
-    "main": "webpack.www.config.js",
+    "description": "Shared components and services to promote code reuse but that don't warrant separate repos.",
     "scripts": {
         "upgrade": "node ./upgrade.js",
         "build": "npx webpack --config webpack.config.js;",
@@ -34,6 +33,7 @@
         "libphonenumber-js": "^1.9.8",
         "sane-email-validation": "^3.0.1",
         "superagent": "^6.1.0",
+        "svelte": "^4.2.0",
         "zxcvbn": "^4.4.2"
     },
     "devDependencies": {
@@ -52,6 +52,8 @@
         "postcss-loader": "^4.1.0",
         "sass-loader": "^10.1.1",
         "style-loader": "^2.0.0",
+        "stylelint": "^13.9.0",
+        "stylelint-config-standard": "^20.0.0",
         "stylus": "^0.54.8",
         "stylus-loader": "^4.3.3",
         "svg-inline-loader": "^0.8.2",

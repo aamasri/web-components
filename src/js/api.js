@@ -1,6 +1,8 @@
 const debug = false;
 
 import growl from 'growl-js';
+import store from './store';
+
 
 
 
@@ -53,14 +55,14 @@ export function highlightDirtyUI(inputs) {
 /**
  * Transmit changes to the backend database.
  *
- * @param {Object} payload - entity: { properties }.
+ * @param {string} entity   - mongo collection eg. 'user', 'account'
+ * @param {object} patch    - eg. { name: 'Ananda Masri', email: 'ananda.mas...'}
  *
  * @returns {Object}
  **/
-export async function update(payload) {
-    const entity = Object.keys(payload).join('');   // user/account
-
-    const response = await transmit('update', entity, payload);
+export async function update(entity, patch) {
+    console.log(`transmit(${entity}, ${patch}`);
+    const response = await transmit('update', entity, patch);
 
     if (response.status === 'success') {
         // TODO populate local store
@@ -84,16 +86,19 @@ export async function update(payload) {
  *
  * @param {'create' | 'read' | 'update' | 'delete'} type
  * @param {string} entity - eg. 'user'.
- * @param {Object} payload - document patch.
+ * @param {Object} patch - document patch.
  *
  * @returns {Object}
  */
-async function transmit(type, entity, payload = {}) {
+async function transmit(type, entity, patch = {}) {
     // insert auth token
-    const store = await import(/* webpackChunkName: "store" */ './store');
-    if (store.app.jwt)
-        payload.token = store.app.jwt;
-    else
+    console.log(store.data);
+
+    // logged in
+    if (!store.data || !store.data.app || !store.data.app.jwt)
+        return { message: `Sorry, you've been logged out. Please login`, status: 'error' };
+
+    if (!store.data || !store.data.app || !store.data.app.api)
         return { message: `Sorry, you've been logged out. Please login`, status: 'error' };   // edge case
 
     if (![ 'user', 'account', 'all' ].includes(entity))
@@ -104,7 +109,7 @@ async function transmit(type, entity, payload = {}) {
         case 'create':
             method = 'POST';
             methodDescription = 'Creating';
-            payload = JSON.stringify(payload);
+            patch = JSON.stringify(patch);
             break;
         case 'read':
             method = 'GET';
@@ -113,7 +118,7 @@ async function transmit(type, entity, payload = {}) {
         case 'update':
             method = 'PUT';
             methodDescription = 'Updating';
-            payload = JSON.stringify(payload);
+            patch = JSON.stringify(patch);
             break;
         case 'delete':
             method = 'DELETE';
@@ -125,8 +130,9 @@ async function transmit(type, entity, payload = {}) {
 
     try {
         const superagent = (await import(/* webpackChunkName: "superagent" */ 'superagent')).default;
-        const { body } = await superagent(method, `/api/${entity}`).send(payload).timeout(9000);
-
+        const { body } = await superagent(method, store.data.app.api + entity)
+            .set('Authorization', 'Bearer ' + store.data.app.jwt)
+            .send(patch).timeout(9000);
         if (body)
             return { message: `${methodDescription} ${entity} succeeded.`, status: 'success', data: body };
 
@@ -151,7 +157,7 @@ async function transmit(type, entity, payload = {}) {
 
         if (error.status === 401) {
             window.dialog = await import(/* webpackChunkName: "dialog" */ '@aamasri/dialog');
-            dialog.open({ title: 'Please Re-authorize', source:'/reauthorize', iframe: true });
+            dialog.open({ title: 'Please Re-authorize', source: '/reauthorize', iframe: true });
             return {};
         }
 

@@ -1,43 +1,5 @@
-const debug = true;
-const store = {};
-
-const tempInitial = {              // ephemeral data
-    password: null,
-};
-
-const appInitial = {       // app initial state
-    username: '',           // cell or email
-    password: null,
-    jwt: null,
-    plan: '',
-    industry: '',
-    organization: '',
-    otherIndustry: '',
-    subDomain: ''
-};
-
-const userInitial = {       // store (initial) state
-    name: '',
-    email: '',
-    cell: '',
-    accounts: []        // related account ids
-}
-
-const accountsInitial = {       // store (initial) state
-    accounts: [
-        /* {
-            id: '',     // unique eg. park
-            plan: '',
-            industry: '',
-            organization: '',
-            otherIndustry: '',
-            app: 'stagepay',
-            accountBalance: '',
-            billingStatus: '',
-            autoPay: '',
-        } */
-    ]
-};
+const debug: boolean = true;
+const store = { data: {} };
 
 
 
@@ -60,7 +22,33 @@ store.save = function (data) {
 
 
 /** (re)initialize store */
-function init() {
+store.init = function (schema) {
+    // load any existing store from localStorage
+    store.data = window.localStorage.store ? JSON.parse(window.localStorage.store) : {};
+
+    // add any missing schema items and default data
+    for (const [key1, value1] of Object.entries(schema)) {
+        console.log(`${key1}: ${value1}`);
+
+        if (!store.data[key1]) {
+            store.data[key1] = value1;
+            continue;
+        }
+
+        // patch the store from the schema
+        if (isIterable(value1)) {
+            for (const [ key2, value2 ] of value1) {
+
+            }
+        }
+
+
+    }
+
+    window.localStorage.store = JSON.stringify(store.data);
+    console.log(store.data);
+    return;
+
     store.temp = window.sessionStorage.tempStore ? JSON.parse(window.sessionStorage.tempStore) : tempInitial;
     store.app = window.localStorage.appStore ? JSON.parse(window.localStorage.appStore) : appInitial;
     store.user = window.localStorage.userStore ? JSON.parse(window.localStorage.userStore) : userInitial;
@@ -78,10 +66,18 @@ function init() {
 store.clear = function () {
     window.localStorage.clear();
     window.sessionStorage.clear();
-    init();   // reinitialize store data
 };
 
 
-init();   // initialize store data
+
+function isIterable(obj) {
+    // checks for null and undefined
+    if (obj == null) {
+        return false;
+    }
+    return typeof obj[Symbol.iterator] === 'function';
+}
+
+
 
 export default store;

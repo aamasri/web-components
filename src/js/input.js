@@ -2,15 +2,16 @@ const debug = true;
 
 import '../css/core.css';
 import '../css/input.css';
+import { update } from './api';
 
 
+const body = document.querySelector('body');
 
 // create delegated event listeners on body element
-['keydown', 'keyup', 'cut', 'paste', 'change', 'blur' ].forEach(eventType => {
-    const inputs = document.querySelector('.web-component input');
-    document.querySelector('.web-component input').addEventListener(eventType, inputChangeHandler);
-});
 
+[ 'keyup', 'cut', 'paste', 'change', 'blur' ].forEach(eventType => {
+    body.addEventListener(eventType, inputChangeHandler);
+});
 
 
 
@@ -20,9 +21,13 @@ import '../css/input.css';
  * @returns {void}
  **/
 async function inputChangeHandler(event) {
-    if (debug) console.debug(`input changed to "${event.target.value}" on ${event.type}`);
-
     const webComponent = event.target.closest('.web-component');
+    if (!webComponent)
+        return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
     const form = webComponent.closest('form');
     let input;
 
@@ -35,6 +40,8 @@ async function inputChangeHandler(event) {
     else
         return;
 
+    if (debug) console.debug(`input changed to "${event.target.value}" on ${event.type}`);
+
     // handle dynamic label/placeholder
     const value = input.value;
     if (value)
@@ -42,24 +49,33 @@ async function inputChangeHandler(event) {
     else
         input.classList.remove('active');
 
-    let isSubmit = (form) ? event.key === 'Enter': [ 'Enter', 'Escape', 'Tab' ].includes(event.key) || event.type === 'blur';
-    if (debug) console.debug(`  treat as submit: ${isSubmit}`);
+    let isSubmit = (form) ? event.key === 'Enter': ['Enter', 'Tab'].includes(event.key) || [ 'change', 'blur' ].includes(event.type);
     const valid = await validate(input, isSubmit);
 
-    if (event.type === 'change' && valid && isSubmit) {
+    if (isSubmit && valid) {
         const dataId = input.getAttribute('data-id');
+        if (debug) console.debug(`  submitting input[data-id="${dataId}"]`);
+        const dataProps = dataId.split('-');
 
-        if (dataId) {
+        if (dataProps.length === 2) {
+            const entity = dataProps[0];
+            const field = dataProps[1];
+            const patch = {};
+            patch[field] = value;
+
+            if (debug) console.debug(`  submitting ${entity}:`, patch);
+
             input.classList.add('dirty');
 
-            const api = await import(/* webpackChunkName: "api" */ './api');
-            const response = await api.update(dataId, value);
+            //const api = await import(/* webpackChunkName: "api" */ './api');
+            const response = await update(entity, patch);
             if (response.status === 'success') {
                 input.classList.remove('dirty');
             } else {
-
+                console.error(`  api operation failed`);
             }
-        }
+        } else
+            console.error(`  handling submission for ${dataId} failed (input[data-id] format should be entity-field)`);
     }
 }
 
