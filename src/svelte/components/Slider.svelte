@@ -184,7 +184,7 @@
     $: orientationEnd = vertical ? reversed ? 'bottom' : 'top' : reversed ? 'left' : 'right';
 
     function fixFloat(value) {
-        return parseFloat(value.toFixed(precision));
+        return parseFloat(Number(value).toFixed(precision));
     }
 
     /**
