@@ -2,7 +2,7 @@
     /* USAGE
         // this component was adapted from https://github.com/simeydotme/svelte-slider-pips#slider-props
         // homepage: https://simeydotme.github.io/svelte-slider-pips
-        // Thank You Simon Goellner!
+        // Thank You, Simon Goellner!
 
         <Slider id="slider1"
             range=true
@@ -45,7 +45,7 @@
     export let id = undefined;  // optional id attribute to the component for styling/other reasons
     export let prefix = "";     // a string to prefix to all displayed values
     export let suffix = "";     // a string to suffix to all displayed values
-    export let formatter = (v, i, p) => v;  // a function {(v) => v} to re-format values before they are displayed
+    export let formatter = (v) => v;  // a function {(v) => v} to re-format values before they are displayed
 
     // stylistic props
     export let precision = 2;       // number of decimal places to round off to
@@ -235,7 +235,7 @@
      * @return {array} the range array for creating a slider
      **/
     function trimRange(values) {
-        if (range === "min" || range === "max")
+        if ([ 'min', 'max' ].includes(range))
             return values.slice(0, 1);
         else if (range)
             return values.slice(0, 2);
@@ -396,9 +396,9 @@
      * @return {number} the end of the range
      **/
     function rangeEnd(values) {
-        if (range === "max")
+        if (range === 'max')
             return 0;
-        else if (range === "min")
+        else if (range === 'min')
             return 100 - values[0];
         else
             return 100 - values[1];
@@ -407,7 +407,6 @@
     /**
      * when the user has unfocused (blurred) from the
      * slider, deactivate all handles
-     * @param {event} e the event from browser
      **/
     function sliderBlurHandle() {
         if (keyboardActive) {
@@ -441,6 +440,7 @@
             let prevent = false;
             let timerStatus = 'stop';   // for key inputs (apart from space-bar) we're going to stop the timer
 
+            // noinspection FallThroughInSwitchStatementJS
             switch (e.key) {
                 case "PageDown":
                     jump *= 10;
@@ -583,7 +583,6 @@
     /**
      * if user triggers touchend on the body then we
      * unfocus the slider completely
-     * @param {event} e the event from browser
      **/
     function bodyTouchEnd() {
         handleActivated = false;
@@ -696,6 +695,7 @@
 <div {id}
      bind:this={slider}
      class="slider"
+     role="slider"
      class:range={range === true}
      class:disabled
      class:hoverable

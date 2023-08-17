@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "0.0.7",
-  "versionDescription": "Fixed a bug in Slider component when value undefined.",
+  "version": "0.0.8",
+  "versionDescription": "Added Aria role to Slider component.",
   "description": "Shared components and services to promote code reuse but that don't warrant separate repos.",
   "scripts": {
     "upgrade": "node ./upgrade.js",
