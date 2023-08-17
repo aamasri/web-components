@@ -40,6 +40,7 @@
     export let timerEnabled = false;    // show start/stop button
     export let timerStartedAt = 0;      // unix timestamp of when the timer started (mSecs)
     export let timerUnit = 'ms';        // 'ms', 's', 'm', 'h'
+    export let tabIndex = 0;            // sliders require a tabindex
 
     // formatting props
     export let id = undefined;  // optional id attribute to the component for styling/other reasons
@@ -696,6 +697,7 @@
      bind:this={slider}
      class="slider"
      role="slider"
+     tabindex={tabIndex}
      class:range={range === true}
      class:disabled
      class:hoverable
