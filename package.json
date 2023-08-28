@@ -1,10 +1,10 @@
 {
   "name": "@aamasri/web-components",
-  "version": "0.0.11",
-  "versionDescription": "Added Hours svelte component.",
   "description": "Shared components and services to promote code reuse but that don't warrant separate repos.",
+  "version": "0.0.12",
+  "versionDescription": "Embeded pause/play svgs into Slider to avoid fontawesome dependency",
   "scripts": {
-    "upgrade": "node ./upgrade.js",
+    "upgrade": "npm upgrade",
     "build": "npx webpack --config webpack.config.js;",
     "build-production": "npx webpack --config webpack.config.js --mode production;",
     "publish": "node ./publish.js"

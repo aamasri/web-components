@@ -734,7 +734,14 @@
 
             <span class="ring" style="box-shadow: 0 0 0 {handlePressed && activeHandle === index ? 12 : 8}px {overflow ? 'var(--bs-danger)' : color};"></span>
 
-            <span class="nub {timerEnabled ? 'fas fa-'+(timerStartedAt ? 'pause' : 'play') : ''}" style="background-color: {color}; border-color: {color};"></span>
+            {#if timerEnabled}
+                {#if timerStartedAt}
+                    <svg class="nub pause" style="background-color: {color}; border-color: {color};" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M128 64H0V448H128V64zm192 0H192V448H320V64z"/></svg>
+                {:else}
+                    <svg class="nub play" style="background-color: {color}; border-color: {color};" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M384 256L0 32V480L384 256z"/></svg>
+                {/if}
+            {/if}
+
             {#if float && value}
                 <span class="float" style="background-color: {focus ? color : 'var(--handle-inactive)'};">
                     {#if prefix}<span class="float-prefix">{prefix}</span>{/if}
@@ -923,7 +930,6 @@
         &.range:not(.min):not(.max) .nub
             border-radius 10em 10em 10em 1.6em
 
-
         &.range .handle:nth-of-type(1) .nub
             transform rotate(-135deg)
 
@@ -931,26 +937,20 @@
         &.range .handle:nth-of-type(2) .nub
             transform rotate(45deg)
 
-
         &.range.reversed .handle:nth-of-type(1) .nub
             transform rotate(45deg)
-
 
         &.range.reversed .handle:nth-of-type(2) .nub
             transform rotate(-135deg)
 
-
         &.range.vertical .handle:nth-of-type(1) .nub
             transform rotate(135deg)
-
 
         &.range.vertical .handle:nth-of-type(2) .nub
             transform rotate(-45deg)
 
-
         &.range.vertical.reversed .handle:nth-of-type(1) .nub
             transform rotate(-45deg)
-
 
         &.range.vertical.reversed .handle:nth-of-type(2) .nub
             transform rotate(135deg)
@@ -972,13 +972,11 @@
             border-radius 0.2em
             line-height 1.5
 
-
         .handle.active .float,
         &.hoverable .handle:hover .float
             opacity 1
             top -0.2em
             transform translate(-50%, -150%)
-
 
         .bar
             position absolute
@@ -995,50 +993,36 @@
             width 0.5em
             height auto
 
-
         &.focus .handle:focus,
         &.focus .handle:focus-visible
             outline none
 
-
         .bar
             background-color var(--range-inactive)
-
 
         .nub
             background-color var(--handle-inactive)
             border 4px solid var(--handle-inactive)
-            color white
-            font-size 1rem
-            text-align center
-            line-height 1.6
-            padding-left 1px
-
-
-        .nub.fa-play
-            padding-left 4px
-
+            fill white
+            padding 4px 0 4px 0
+            &.play
+                padding-left 4px
 
         &.focus .nub
             border-color var(--focus-color) !important
 
-
         .handle.active .nub
             background-color var(--handle-focus)
-
 
         .float
             color var(--float-text)
             background-color var(--float-inactive)
 
-
         &.focus .float
             background-color var(--float)
 
-
         &.disabled
             opacity 0.5
-
 
         &.disabled .nub
             background-color var(--slider)
