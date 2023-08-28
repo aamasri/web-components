@@ -33,13 +33,14 @@
 
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<ul id="{id}" class="menuComponent" class:classes class:disabled class:notVisible={!visible}>
+<ul id="{id}" class="menuComponent" class:classes class:disabled class:notVisible={!visible} role="menu">
     {#each items as item}
         <li class:selected={item.key === selected}
             class:disabled={item.disabled}
             class:highlighted={item.key === highlighted}
             on:click={selectMenuItem} data-key={item.key}
-        >
+            role="menuitem">
+
             {#if item.icon}
                 <i class="{item.icon}"></i>
             {/if}

@@ -119,19 +119,18 @@
 
     {#if getMatchingItems(searchString, items, expanded).length}
         <div class="lists">
-            <ul class="matchingItems {subItems.length ? '' : 'last'}" in:fly="{{ y: -10, duration: 500 }}" out:fly="{{ y: -10, duration: 500 }}">
+            <ul class="matchingItems {subItems.length ? '' : 'last'}" in:fly="{{ y: -10, duration: 500 }}" out:fly="{{ y: -10, duration: 500 }}" role="menu">
                 {#each getMatchingItems(searchString, items, expanded) as item, index}
-                    <li on:click={select} data-key={item.key} class="{(item.key == selectedItem && selectedItem !== false) ? 'selected' : ''}">
+                    <li on:click={select} data-key={item.key} class="{(item.key == selectedItem && selectedItem !== false) ? 'selected' : ''}" role="menuitem">
                         {@html item.value}
                     </li>
                 {/each}
             </ul>
 
             {#if selectedItem !== false && subItems.length}
-                <ul class="subItems" in:fly="{{ y: 10, duration: 500 }}" out:fly="{{ y: 20, duration: 500 }}">
+                <ul class="subItems" in:fly="{{ y: 10, duration: 500 }}" out:fly="{{ y: 20, duration: 500 }}" role="menu">
                     {#each subItems as item}
-                        <li on:click={select} data-key={item.key}
-                                class="{(item.key == selectedSubItem && selectedSubItem !== false) ? 'selected' : ''}">
+                        <li on:click={select} data-key={item.key} class="{(item.key == selectedSubItem && selectedSubItem !== false) ? 'selected' : ''}" role="menuitem">
                             {@html item.value || '-'}
                         </li>
                     {/each}

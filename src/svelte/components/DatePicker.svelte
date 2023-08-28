@@ -216,10 +216,10 @@
 
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<div class="date-time-picker" on:keydown={keydown}>
-    <div class="tab-container" tabindex="-1">
+<div class="date-time-picker" on:keydown={keydown} role="button" tabindex="-1">
+    <div class="tab-container">
         <div class="top">
-            <div class="page-button" tabindex="-1" on:click={() => setMonth(browseDate.getMonth() - 1)}>
+            <div class="page-button" tabindex="-1" on:click={() => setMonth(browseDate.getMonth() - 1)} role="button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" transform="rotate(180, 12, 12)"/>
                 </svg>
@@ -267,7 +267,7 @@
                 </svg>
             </div>
 
-            <div class="page-button" tabindex="-1" on:click={() => setMonth(browseDate.getMonth() + 1)}>
+            <div class="page-button" tabindex="-1" on:click={() => setMonth(browseDate.getMonth() + 1)} role="button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z"/>
                 </svg>
@@ -293,7 +293,7 @@
                         class:disabled={!dayIsInRange(calendarDay, min, max)}
                         class:selected={calendarDay.year === value?.getFullYear() && calendarDay.month === value?.getMonth() && calendarDay.number === value.getDate()}
                         class:other-month={calendarDay.month !== browseMonth}
-                       >
+                            role="button" tabindex="-1">
 
                         <span>{calendarDay.number}</span>
                     </div>

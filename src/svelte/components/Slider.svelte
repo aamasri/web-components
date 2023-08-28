@@ -422,11 +422,9 @@
      * set it to be active
      * @param {event} e the event from browser
      **/
-    function sliderFocusHandle(e) {
-        if (!disabled) {
-            activeHandle = index(e.target);
+    function sliderFocusHandle() {
+        if (!disabled)
             focus = true;
-        }
     }
 
     /**
@@ -696,7 +694,6 @@
 <div {id}
      bind:this={slider}
      class="slider"
-     role="slider"
      tabindex={tabIndex}
      class:range={range === true}
      class:disabled
@@ -709,28 +706,28 @@
      on:mousedown={sliderInteractStart}
      on:mouseup={sliderInteractEnd}
      on:touchstart|preventDefault={sliderInteractStart}
-     on:touchend|preventDefault={sliderInteractEnd}>
+     on:touchend|preventDefault={sliderInteractEnd}
+     role="slider"
+     aria-valuemin={min}
+     aria-valuemax={max}
+     aria-valuenow={range === true ? `${prefix}${values[0]} to ${values[1]}${suffix}` : `${prefix}${values[0]}${suffix}`}
+     aria-orientation="{vertical ? 'vertical' : 'horizontal'}"
+     aria-disabled="{disabled}">
 
     {#each values as value, index}
-        <span role="slider" class="handle"
-            class:active={focus && activeHandle === index}
-            class:press={handlePressed && activeHandle === index}
-            class:selected={selected || (timerEnabled && timerStartedAt)}
-            class:timerEnabled
-            class:overflow
-            data-handle={index}
-            on:blur={sliderBlurHandle}
-            on:focus={sliderFocusHandle}
-            on:keydown={sliderKeydown}
-            style="{orientationStart}: {$springPositions[index]}%; z-index: {activeHandle === index ? 3 : 2};"
-            aria-valuemin={range === true && index === 1 ? values[0] : min}
-            aria-valuemax={range === true && index === 0 ? values[1] : max}
-            aria-valuenow={value}
-            aria-valuetext="{prefix}{formatter(value, index, percentOf(value))}{suffix}"
-            aria-orientation={vertical ? 'vertical' : 'horizontal'}
-            aria-disabled={disabled}
-            {disabled}
-            tabindex="{ disabled ? -1 : 0 }">
+        <span class="handle"
+              class:active={focus && activeHandle === index}
+              class:press={handlePressed && activeHandle === index}
+              class:selected={selected || (timerEnabled && timerStartedAt)}
+              class:timerEnabled
+              class:overflow
+              data-handle={index}
+              on:blur={sliderBlurHandle}
+              on:focus={sliderFocusHandle}
+              on:keydown={sliderKeydown}
+              style="{orientationStart}: {$springPositions[index]}%; z-index: {activeHandle === index ? 3 : 2};"
+              {disabled}
+              role="button" tabindex="0">
 
             <span class="ring" style="box-shadow: 0 0 0 {handlePressed && activeHandle === index ? 12 : 8}px {overflow ? 'var(--bs-danger)' : color};"></span>
 
@@ -740,6 +737,8 @@
                 {:else}
                     <svg class="nub play" style="background-color: {color}; border-color: {color};" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M384 256L0 32V480L384 256z"/></svg>
                 {/if}
+            {:else}
+                <svg class="nub" style="background-color: {color}; border-color: {color};" />
             {/if}
 
             {#if float && value}
@@ -1027,4 +1026,3 @@
         &.disabled .nub
             background-color var(--slider)
 </style>
-

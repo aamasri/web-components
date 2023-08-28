@@ -1,8 +1,8 @@
 {
   "name": "@aamasri/web-components",
   "description": "Shared components and services to promote code reuse but that don't warrant separate repos.",
-  "version": "0.0.12",
-  "versionDescription": "Embeded pause/play svgs into Slider to avoid fontawesome dependency",
+  "version": "0.0.13",
+  "versionDescription": "Improved accessibility in all components",
   "scripts": {
     "upgrade": "npm upgrade",
     "build": "npx webpack --config webpack.config.js;",
