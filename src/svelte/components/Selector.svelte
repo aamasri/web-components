@@ -1,7 +1,7 @@
 <script>
     const debug = false;
 
-    import {createEventDispatcher} from "svelte";
+    import { createEventDispatcher, onMount, tick } from 'svelte';
     import { fly } from 'svelte/transition';
     const dispatch = createEventDispatcher();
 
@@ -33,7 +33,6 @@
         return matchingItems;
     }
 
-
     function search(eventOrSearchString) {
         searchString = (typeof eventOrSearchString === 'string') ? eventOrSearchString : eventOrSearchString.target.value.toLowerCase();
     }
@@ -47,7 +46,7 @@
         }
     }
 
-    function select(event) {
+    async function select(event) {
         const isItem = event.target.closest('.matchingItems');
         const isSubItem = event.target.closest('.subItems');
 
@@ -56,7 +55,19 @@
             console.log(`selected ${selectedItem} from ${placeholder} selector`)
 
             // there are no sub-items then we've got our selection
-            if (!subItems.length) {
+            if (subItems.length) {
+                // if the component overflows the screen width, then align the sub-item list with the window right edge
+                await tick();
+                const thisSelector = event.target.closest('.selector-component');
+                const list = thisSelector.querySelector('.matchingItems');
+                const subList = thisSelector.querySelector('.subItems');
+                if ((list.offsetWidth + subList.offsetWidth) > window.innerWidth)
+                    subList.style.position = 'absolute';
+                else
+                    subList.style.position = 'relative';
+
+                console.log(`${list.offsetWidth} + ${subList.offsetWidth} > ${window.innerWidth}`);
+            } else {
                 dispatch('change', { item: selectedItem });
                 clearSearch();
             }
@@ -87,6 +98,17 @@
 
         return displayedPlaceholder || placeholder;
     }
+
+
+    onMount(() => {
+        if (selectedItem) {
+            const selectedListElement = document.querySelector(`[data-key="${selectedItem}"]`);
+            if (selectedListElement) {
+                selectedListElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                if (debug) console.log(`scrolling to selected item ${selectedItem}`);
+            }
+        }
+    });
 </script>
 
 
@@ -190,6 +212,7 @@
                 &.subItems
                     border-top-right-radius var(--form-border-radius, 0.5rem)
                     margin 1rem 0 0 -1px
+                    right 0
 
                     li.selected::after
                         content ""
