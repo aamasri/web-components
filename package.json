@@ -1,12 +1,13 @@
 {
   "name": "@aamasri/web-components",
   "description": "Shared components and services to promote code reuse but that don't warrant separate repos.",
-  "version": "1.0.0",
-  "versionDescription": "Improved responsiveness of Selector component and released as version 1.",
+  "version": "1.0.1",
+  "versionDescription": "Added type=module for Vite/Sveltekit and made Progress component SSR compatible",
+  "type": "module",
   "scripts": {
     "upgrade": "npm upgrade",
-    "build": "npx webpack --config webpack.config.js;",
-    "build-production": "npx webpack --config webpack.config.js --mode production;",
+    "build": "npx webpack --config webpack.config.cjs;",
+    "build-production": "npx webpack --config webpack.config.cjs --mode production;",
     "publish": "node ./publish.js"
   },
   "repository": {
@@ -59,9 +60,9 @@
     "stylelint-config-standard": "^34.x",
     "stylus": "^0.x",
     "stylus-loader": "^7.x",
-    "svg-inline-loader": "^0.8.2",
-    "terser-webpack-plugin": "^5.1.1",
-    "webpack": "^5.16.0",
+    "svg-inline-loader": "^0.x",
+    "terser-webpack-plugin": "^5.x",
+    "webpack": "^5.x",
     "webpack-cli": "^5.x"
   },
   "main": "publish.js"

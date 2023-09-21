@@ -1,16 +1,17 @@
-const packageJson = require('./package.json');
+import packageJson from './package.json' assert {type: 'json'};
 const version = packageJson.version;
 const description = packageJson.versionDescription;
 
 // function to run bash commands
-const execSync = require('child_process').execSync;
+import shell from 'child_process';
 function runShell(command) {
-    return execSync(command, { encoding: 'utf-8' });
+    return shell.execSync(command, { encoding: 'utf-8' });
 }
 
-console.log(`releasing Stagepay (${version} - ${description})...`);
+console.log(`releasing web-components (${version} - ${description})...`);
 
 const lastCommitMessage = runShell('git log -1 --pretty=%B');
+console.log(lastCommitMessage);
 if (lastCommitMessage.includes(version) || lastCommitMessage.includes(description)) {
     console.error(`**ABORTING: "version ${version} - ${description}" has already been published!**`);
     console.error(`**if applicable, in package.json, update "version" and "versionDescription" and try again.**`);
@@ -20,14 +21,14 @@ if (lastCommitMessage.includes(version) || lastCommitMessage.includes(descriptio
 console.info(`  installing npm dependencies...`);
 runShell('npm install');
 
-
+/*
 console.info(`  building browser dist folder...`);
 buildOutput = runShell('npm run build-production');
-
 if (!buildOutput.includes('compiled successfully')) {
     console.error(`**ABORTING: "npm run build-production  failed`);
     process.exit(0);
 }
+*/
 
 console.info(`  git staging modified/deleted/new files...`);
 runShell(`git add --all`);

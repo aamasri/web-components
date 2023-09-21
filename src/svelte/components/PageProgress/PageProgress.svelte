@@ -8,6 +8,10 @@
 
 
     function progress(numCompleted, total) {
+        // prevent progress calculation on server-side rendering
+        if (typeof window === 'undefined')
+            return 0;   // SSR
+
         if (debug) console.log(`page loading progress is ${numCompleted} of ${total}`);
 
         // reset loading and completion timeouts on every load change
@@ -68,11 +72,11 @@
     .pageProgress
         opacity 0
         height 4px
-        margin: 0;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
+        margin 0
+        position fixed
+        top 0
+        left 0
+        right 0
         transition opacity cubic-bezier(0, 0.52, 1, 1) 1s   /* fast fade in slow fade out */
 
         &.loading
