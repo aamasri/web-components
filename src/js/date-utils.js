@@ -5,7 +5,13 @@
 
 const debug = false;
 
-
+// Constants for timestamp
+const SECOND = 1000;
+const MINUTE = 60 * SECOND
+const HOUR = 60 * MINUTE;
+const DAY = 24 * HOUR;
+const MONTH = 30 * DAY;
+const YEAR = 365 * DAY;
 
 
 /**
@@ -37,7 +43,7 @@ export function getDatesInRange(startDate, span='day') {
 	const datesInRange = [];
 	const startUnix = getTimestamp(startDate);
 	for (const days of daySpan)
-		datesInRange.push(yyyymmdd(new Date(startUnix + (days * 24 * 60 * 60 * 1000))));
+        datesInRange.push(yyyymmdd(new Date(startUnix + (days * DAY))));
 
 	if (debug) console.log(`getDatesInRange(${yyyymmdd(startDate)})`, datesInRange);
 	return datesInRange;
@@ -293,7 +299,7 @@ export function isCurrent(startDate, timeSpan='day') {
 export function stepDate(dateObject, stepSize='day', alignToDay=false, previous=false, getEndDate=false) {
 	let timestamp = getTimestamp(dateObject);
 
-	const step = (previous ? -1 : 1) * 24*60*60*1000;   // +/- 1 day
+    const step = (previous ? -1 : 1) * DAY;   // +/- 1 day
 	let days;
 
 	switch (stepSize) {
@@ -337,7 +343,7 @@ export function alignToStartOfWeek(dateObject, startOfWeek='Monday') {
 	if (dayDifference > 0)
 		dayDifference = dayDifference - 7;
 
-	let unixStartOfWeek = dateObject.getTime() + (dayDifference * 24*60*60*1000);
+    let unixStartOfWeek = dateObject.getTime() + (dayDifference * DAY);
 	const alignedDateObject = new Date(unixStartOfWeek);
 
 	if (debug) console.log(`${dateObject.toLocaleDateString('en-GB')} has day index ${dateObject.getUTCDay()} (day diff from ${startOfWeek} is ${dayDifference})
@@ -523,4 +529,62 @@ export function yyyymmdd(date=new Date()) {
  */
 export function sameDate(date1, date2) {
 	return yyyymmdd(date1) === yyyymmdd(date2);
+}
+
+
+
+
+
+/**
+ * Converts a unix timestamp to relative date
+ *
+ * @param {number} timestamp - a unix timestamp (in seconds or milliseconds)
+ * @return string
+ */
+export function relativeDate(timestamp){
+    timestamp = convertToMs(timestamp);	// convert to milliseconds
+
+	console.log(`relativeDate(${timestamp}) Ms`);
+
+	let currentTime = Date.now();
+    let delta = (currentTime - timestamp); // converted milliseconds to seconds
+
+    console.log(`  delta ${delta / DAY} days`);
+
+	let prefix, postfix, future;
+
+    if (delta > 0) {
+        prefix = '';
+        postfix = ' ago';
+        future = false;
+    } else {
+        delta = -delta;
+        prefix = 'in ';
+        postfix = '';
+        future = true;
+    }
+
+    // Convert the time accordingly
+    switch (true) {
+        case (delta < MINUTE):
+            return (delta === SECOND) ? `${prefix}one second${postfix}` : `${prefix}${deltaSecs/SECOND} seconds${postfix}`;
+        case (delta < 2 * MINUTE):
+            return `${prefix}a minute${postfix}`;
+        case (delta < 45 * MINUTE):
+            return `${prefix}${Math.round(delta/MINUTE)} minutes${postfix}`;
+        case (delta < 90 * MINUTE):
+            return `${prefix}an hour${postfix}`;
+        case (delta < DAY):
+            return `${prefix}${Math.round(delta/HOUR)} hours${postfix}`;
+        case (delta < 2 * DAY):
+            return future ? 'tomorrow' : 'yesterday';
+        case (delta < 28 * DAY):
+            return `${prefix}${Math.round(delta/DAY)} days${postfix}`;
+        case (delta < 11 * MONTH):
+            let months = Math.round(delta/MONTH);
+            return (months <= 1) ? `${prefix}one month${postfix}` : `${prefix}${months} months${postfix}`;
+        default:
+            let years = Math.round(delta/YEAR);
+            return (years <= 1) ? `${prefix}one year${postfix}` : `${prefix}${years} years${postfix}`;
+    }
 }

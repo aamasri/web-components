@@ -1,8 +1,8 @@
 {
   "name": "@aamasri/web-components",
   "description": "Shared components and services to promote code reuse but that don't warrant separate repos.",
-  "version": "1.0.1",
-  "versionDescription": "Added type=module for Vite/Sveltekit and made Progress component SSR compatible",
+  "version": "1.1.0",
+  "versionDescription": "Added new function relativeDate",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade",
