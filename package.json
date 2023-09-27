@@ -1,8 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "description": "Shared components and services to promote code reuse but that don't warrant separate repos.",
-  "version": "1.1.0",
-  "versionDescription": "Added new function relativeDate",
+  "version": "1.1.1",
+  "versionDescription": "Fixed undefined error in function date-utils.relativeDate.",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade",
@@ -20,12 +19,13 @@
     "material",
     "api"
   ],
-    "author": "Ananda Masri <ananda@auro.technology> (https://auro.technology)",
-    "license": "MIT",
-    "publishConfig": {
-        "access": "public"
-    },
-    "bugs": {
+  "description": "Shared components and services to promote code reuse but that don't warrant separate repos.",
+  "author": "Ananda Masri <ananda@auro.technology> (https://auro.technology)",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
     "url": "https://github.com/aamasri/web-components/issues"
   },
   "homepage": "https://github.com/aamasri/web-components#readme",

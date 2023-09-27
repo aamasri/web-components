@@ -291,7 +291,7 @@ export function isCurrent(startDate, timeSpan='day') {
  *
  * @param {Date} dateObject
  * @param {string|int|undefined} stepSize - day/week/month OR number of days (default day)
- * @param {string|boolean|int} alignToDay - eg. Monday or 1
+ * @param {string|boolean|int} alignToDay - e.g. Monday or 1
  * @param {boolean} previous - step back or forward (default)
  * @param {boolean} getEndDate - if true then we're getting the end date for the timespan (i.e. the day before)
  * @return Date
@@ -567,7 +567,7 @@ export function relativeDate(timestamp){
     // Convert the time accordingly
     switch (true) {
         case (delta < MINUTE):
-            return (delta === SECOND) ? `${prefix}one second${postfix}` : `${prefix}${deltaSecs/SECOND} seconds${postfix}`;
+            return (delta === SECOND) ? `${prefix}one second${postfix}` : `${prefix}${delta/SECOND} seconds${postfix}`;
         case (delta < 2 * MINUTE):
             return `${prefix}a minute${postfix}`;
         case (delta < 45 * MINUTE):
