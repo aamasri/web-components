@@ -567,7 +567,7 @@ export function relativeDate(timestamp){
     // Convert the time accordingly
     switch (true) {
         case (delta < MINUTE):
-            return (delta === SECOND) ? `${prefix}one second${postfix}` : `${prefix}${delta/SECOND} seconds${postfix}`;
+            return (delta === SECOND) ? `${prefix}one second${postfix}` : `${prefix}${Math.round(delta/SECOND)} seconds${postfix}`;
         case (delta < 2 * MINUTE):
             return `${prefix}a minute${postfix}`;
         case (delta < 45 * MINUTE):
