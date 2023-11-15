@@ -113,6 +113,10 @@ export const isValidUsername = function(username) {
  * @returns {boolean}
  */
 export const isValidEmail = function(email) {
+    const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return regex.test(email);
+
+    /* crude email validation
     // require at least @
     if (!/@/.test(email))
         return false;
@@ -122,6 +126,7 @@ export const isValidEmail = function(email) {
         return false;
 
     return isEmail(email);
+    */
 };
 
 
