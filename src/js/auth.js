@@ -36,7 +36,7 @@ export async function authenticate(userInput) {
         else if (error.message)
             errorMessage = `Authentication failed with: ${error.message}`;
         else if (error.status) {               // server responded with http error code eg. 30x, 40x, 50x
-            const HTTP = await import(/* webpackChunkName: "http-codes" */ '../constants/http-codes');
+            const HTTP = (await import(/* webpackChunkName: "http-codes" */ '../constants/http-codes')).default;
             errorMessage = `Authentication failed with ${HTTP[error.status]} (HTTP code ${error.status})`;
         }
         else

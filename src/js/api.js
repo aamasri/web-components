@@ -162,7 +162,7 @@ async function transmit(type, entity, patch = {}) {
         }
 
         if (error.status) {               // server responded with http error code eg. 30x, 40x, 50x
-            const HTTP = await import(/* webpackChunkName: "http-codes" */ '../constants/http-codes');
+            const HTTP = (await import(/* webpackChunkName: "http-codes" */ '../constants/http-codes')).default;
             errorMessage += `failed with ${HTTP[error.status]} (HTTP code ${error.status})`;
             return { message: errorMessage, status: 'error' };
         }

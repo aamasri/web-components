@@ -1,4 +1,4 @@
-module.exports = [
+export default [
     {
         name: 'Afghanistan',
         dial_code: '+93',

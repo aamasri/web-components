@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     0: 'webserver unreachable',
 
     100: 'continue',

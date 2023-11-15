@@ -113,10 +113,6 @@ export const isValidUsername = function(username) {
  * @returns {boolean}
  */
 export const isValidEmail = function(email) {
-    const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return regex.test(email);
-
-    /* crude email validation
     // require at least @
     if (!/@/.test(email))
         return false;
@@ -125,8 +121,7 @@ export const isValidEmail = function(email) {
     if (!/.[a-z]{2,20}$/i.test(email))
         return false;
 
-    return isEmail(email);
-    */
+    return isEmail(email);  // uses sane-email-validation package
 };
 
 
@@ -407,7 +402,7 @@ export const reformatUsername = function(username) {
 
 
 /**
- * auto-correct email as-you-type.
+ * autocorrect email as-you-type.
  *
  * @param {string} email
  * @returns {string}
@@ -439,7 +434,7 @@ export const reformatEmail = function(email) {
 
 
 /**
- * auto-correct phone as-you-type.
+ * autocorrect phone as-you-type.
  *
  * @param {string} phone
  * @returns {string}
@@ -474,7 +469,7 @@ export const reformatPhone = function(phone) {
 
 
 /**
- * auto-correct url as-you-type.
+ * autocorrect url as-you-type.
  *
  * @param {string} url
  * @returns {string}
@@ -504,7 +499,7 @@ export const reformatUrl = function(url) {
     // remove duplicate and trailing "/"
     url = url
         .replace(/:\/\//, ':::')                           // remove leading :// temporarily
-        .replace(/[\/]{2,}/g, '/')  // replace consecutive slashes with a single slash
+        .replace(/\/{2,}/g, '/')  // replace consecutive slashes with a single slash
         .replace(/:::/, '://');     // finally put back the ://
 
     // adjust incorrect quantity of www
