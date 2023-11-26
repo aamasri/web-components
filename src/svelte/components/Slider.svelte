@@ -307,7 +307,7 @@
      * @param {object} clientPos the client{x,y} of the interaction
      **/
     function handleInteract(clientPos) {
-        console.log('handle moved')
+        if (debug) console.log('handle moved')
         // first make sure we have the latest dimensions
         // of the slider, as it may have changed size
         const dims = getSliderDimensions();
@@ -519,7 +519,7 @@
 
         // fire the stop event for touch devices
         if (e.type === "touchend") {
-            console.log('calling eStop() on slider interact end');
+            if (debug) console.log('calling eStop() on slider interact end');
             eStop();
         }
 
@@ -571,7 +571,7 @@
                 }
                 // fire the stop event for mouse device
                 // when the body is triggered with an active handle
-                console.log('calling eStop() because mouseup on body');
+                if (debug) console.log('calling eStop() because mouseup on body');
                 eStop();
             }
         }

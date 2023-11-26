@@ -52,7 +52,7 @@
 
         if (isItem) {
             selectedItem = event.target.closest('li').dataset.key;
-            console.log(`selected ${selectedItem} from ${placeholder} selector`)
+            if (debug) console.log(`selected ${selectedItem} from ${placeholder} selector`)
 
             // there are no sub-items then we've got our selection
             if (subItems.length) {
@@ -66,7 +66,7 @@
                 else
                     subList.style.position = 'relative';
 
-                console.log(`${list.offsetWidth} + ${subList.offsetWidth} > ${window.innerWidth}`);
+                if (debug) console.log(`${list.offsetWidth} + ${subList.offsetWidth} > ${window.innerWidth}`);
             } else {
                 dispatch('change', { item: selectedItem });
                 clearSearch();

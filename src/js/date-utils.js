@@ -380,7 +380,7 @@ export function isInWeek(date, weekStartDay='Monday') {
 	const dateInteger = parseInt(yyyymmdd(date).replace(/-/g, ''));
 	startOfWeek = parseInt(yyyymmdd(startOfWeek).replace(/-/g, ''));
 	endOfWeek = parseInt(yyyymmdd(endOfWeek).replace(/-/g, ''));
-	console.log(`isInWeek(date:${dateInteger} startOfWeek: ${startOfWeek} endOfWeek:${endOfWeek})`, dateInteger >= startOfWeek && dateInteger <= endOfWeek);
+	if (debug) console.log(`isInWeek(date:${dateInteger} startOfWeek: ${startOfWeek} endOfWeek:${endOfWeek})`, dateInteger >= startOfWeek && dateInteger <= endOfWeek);
 	return dateInteger >= startOfWeek && dateInteger <= endOfWeek;
 }
 
@@ -544,12 +544,12 @@ export function sameDate(date1, date2) {
 export function relativeDate(timestamp){
     timestamp = convertToMs(timestamp);	// convert to milliseconds
 
-	console.log(`relativeDate(${timestamp}) Ms`);
+	if (debug) console.log(`relativeDate(${timestamp}) Ms`);
 
 	let currentTime = Date.now();
     let delta = (currentTime - timestamp); // converted milliseconds to seconds
 
-    console.log(`  delta ${delta / DAY} days`);
+	if (debug) console.log(`  delta ${delta / DAY} days`);
 
 	let prefix, postfix, future;
 

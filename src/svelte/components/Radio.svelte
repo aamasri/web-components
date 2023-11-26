@@ -15,12 +15,12 @@
     // radio buttons
     async function setRadioValue(event) {
         const radioValue = event.target.dataset.value;
-        console.log(`clicked on radio button ${radioValue}`)
+        if (debug) console.log(`clicked on radio button ${radioValue}`)
         if (radioValue === selectedValue)
             return;     // no change
 
         selectedValue = radioValue;
-        console.log(`setRadio to ${selectedValue}`)
+        if (debug) console.log(`setRadio to ${selectedValue}`)
 
         await tick();   // so that parent component sees updated radio DOM
         dispatch('change');

@@ -90,7 +90,7 @@
     $: getBrowseMonth(browseDate);
 
     function setMonth(newMonth) {
-        console.log('setMonth', newMonth);
+        if (debug) console.log('setMonth', newMonth);
         let newYear = browseDate.getFullYear();
         if (newMonth === 12) {
             newMonth = 0;
