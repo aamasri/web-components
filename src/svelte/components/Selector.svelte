@@ -17,7 +17,7 @@
     export let size = '';   // bootstrap sm, lg etc. for input-group
     export let color = 'secondary';   // bootstrap success, primary etc. for button
     export let expanded = false;
-    export function focus() { inputElement.focus(); }
+    export function focusInput() { inputElement.focus(); }
 
     let searchString = '';
     let inputElement;
