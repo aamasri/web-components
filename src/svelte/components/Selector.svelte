@@ -17,7 +17,7 @@
     export let size = '';   // bootstrap sm, lg etc. for input-group
     export let color = 'secondary';   // bootstrap success, primary etc. for button
     export let expanded = false;
-    export function focusInput() { inputElement.focus(); }
+    export let focus = false;
 
     let searchString = '';
     let inputElement;
@@ -109,6 +109,11 @@
                 selectedListElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 if (debug) console.log(`scrolling to selected item ${selectedItem}`);
             }
+        }
+
+        if (focus) {
+            inputElement.focus();
+            console.log(`Selector focused its input`, inputElement);
         }
     });
 </script>
