@@ -1,4 +1,6 @@
 <script>
+    const debug = false;
+
     import {getMonthLength, getCalendarDays} from 'date-picker-svelte/date-utils';
     import {getInnerLocale} from 'date-picker-svelte/locale';
     import {createEventDispatcher} from 'svelte';

@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.1.5",
-  "versionDescription": "suppressed console.debug messages.",
+  "version": "1.1.6",
+  "versionDescription": "Fixed fatal error in DatePicker component",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",
@@ -48,6 +48,7 @@
     "autoprefixer": "^10.2.3",
     "babel-loader": "^9.x",
     "css-loader": "^6.x",
+    "date-picker-svelte": "^2.10.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.x",
     "mini-css-extract-plugin": "^2.x",
