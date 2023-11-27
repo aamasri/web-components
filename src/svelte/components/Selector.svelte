@@ -17,7 +17,7 @@
     export let size = '';   // bootstrap sm, lg etc. for input-group
     export let color = 'secondary';   // bootstrap success, primary etc. for button
     export let expanded = false;
-    export let focus = false;
+    export let autofocus = false;
 
     let searchString = '';
 
@@ -124,7 +124,7 @@
                 on:paste={search}
                 on:change={search}
                 placeholder="{placeholderValue(selectedItem, items, selectedSubItem, subItems)}"
-                autofocus={focus}>
+               {autofocus}>
         {#if searchString}
             <button class="btn btn-outline-secondary" on:click={clearSearch}>
                 <i class="reset fas fa-times"></i>

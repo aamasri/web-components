@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.1.13",
-  "versionDescription": "Fixed stupid bug in Selector.svelte input.",
+  "version": "1.1.14",
+  "versionDescription": "Selector.svelte now supports native autofocus attribute.",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",
