@@ -20,7 +20,6 @@
     export let focus = false;
 
     let searchString = '';
-    let inputElement;
 
     function getMatchingItems(searchString, items, expanded) {
         let matchingItems;
@@ -110,11 +109,6 @@
                 if (debug) console.log(`scrolling to selected item ${selectedItem}`);
             }
         }
-
-        if (focus) {
-            inputElement.focus();
-            console.log(`Selector focused its input`, inputElement);
-        }
     });
 </script>
 
@@ -124,13 +118,13 @@
 <div id="{id}" class="selector-component">
     <div class="input-group {size ? `input-group-${size}` : ''}">
         <input type="text" class="form-control"
-                bind:this={inputElement}
                 bind:value={searchString}
                 on:keyup={search}
                 on:cut={search}
                 on:paste={search}
                 on:change={search}
                 placeholder="{placeholderValue(selectedItem, items, selectedSubItem, subItems)}">
+                autofocus={focus}
         {#if searchString}
             <button class="btn btn-outline-secondary" on:click={clearSearch}>
                 <i class="reset fas fa-times"></i>
@@ -150,7 +144,7 @@
     {#if getMatchingItems(searchString, items, expanded).length}
         <div class="lists">
             <ul class="matchingItems {subItems.length ? '' : 'last'}" in:fly="{{ y: -10, duration: 500 }}" out:fly="{{ y: -10, duration: 500 }}" role="menu">
-                {#each getMatchingItems(searchString, items, expanded) as item, index}
+                {#each getMatchingItems(searchString, items, expanded) as item}
                     <li on:click={select} data-key={item.key} class="{(item.key == selectedItem && selectedItem !== false) ? 'selected' : ''}" role="menuitem">
                         {@html item.value}
                     </li>
