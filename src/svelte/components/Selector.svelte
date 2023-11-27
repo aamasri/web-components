@@ -123,8 +123,8 @@
                 on:cut={search}
                 on:paste={search}
                 on:change={search}
-                placeholder="{placeholderValue(selectedItem, items, selectedSubItem, subItems)}">
-                autofocus={focus}
+                placeholder="{placeholderValue(selectedItem, items, selectedSubItem, subItems)}"
+                autofocus={focus}>
         {#if searchString}
             <button class="btn btn-outline-secondary" on:click={clearSearch}>
                 <i class="reset fas fa-times"></i>
