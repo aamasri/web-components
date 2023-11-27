@@ -17,8 +17,10 @@
     export let size = '';   // bootstrap sm, lg etc. for input-group
     export let color = 'secondary';   // bootstrap success, primary etc. for button
     export let expanded = false;
+    export function focus() { inputElement.focus(); }
 
     let searchString = '';
+    let inputElement;
 
     function getMatchingItems(searchString, items, expanded) {
         let matchingItems;
@@ -117,6 +119,7 @@
 <div id="{id}" class="selector-component">
     <div class="input-group {size ? `input-group-${size}` : ''}">
         <input type="text" class="form-control"
+                bind:this={inputElement}
                 bind:value={searchString}
                 on:keyup={search}
                 on:cut={search}
