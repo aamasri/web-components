@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.1.15",
-  "versionDescription": "Selector.svelte minor cleanup.",
+  "version": "1.1.16",
+  "versionDescription": "Selector.svelte cleanup to prevent memory leaks.",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",

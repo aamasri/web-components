@@ -1,7 +1,7 @@
 <script>
     const debug = false;
 
-    import { createEventDispatcher, onMount, tick } from 'svelte';
+    import { createEventDispatcher, onMount, onDestroy, tick } from 'svelte';
     import { fly } from 'svelte/transition';
     const dispatch = createEventDispatcher();
 
@@ -109,6 +109,12 @@
                 if (debug) console.log(`scrolling to selected item ${selectedItem}`);
             }
         }
+    });
+
+    onDestroy(() => {
+        // cleanup to prevent memory leaks here
+        items = [];
+        subItems = [];
     });
 </script>
 
