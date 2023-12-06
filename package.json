@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.1.16",
-  "versionDescription": "Selector.svelte cleanup to prevent memory leaks.",
+  "version": "1.1.17",
+  "versionDescription": "remove Selector.svelte onDestroy cleanup because it didn't prevent memory leaks.",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",
