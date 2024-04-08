@@ -19,20 +19,15 @@
     {#if (alert.format === 'text')}
         {#if i}, {/if}
         <i class="text-{alert.level} {icons[alert.level]}"></i>
-        <span class="text-{alert.level}">{alert.message}</span>
-
+        <span class="text-{alert.level}">{alert.body || alert.message || ''}</span>
     {:else if (alert.format === 'box')}
-
         <div class="alert alert-{alert.level}" role="alert">
-            <i class="{icons[alert.level]}"></i>&nbsp; {alert.message}
+            <i class="{icons[alert.level]}"></i>&nbsp; {alert.body || alert.message || ''}
         </div>
-
     {:else}
-
         <div style="display: inline-block; margin-right: 1em;" class="alert alert-{alert.level}" role="alert">
-            <i class="{icons[alert.level]}"></i>&nbsp; {alert.message}
+            <i class="{icons[alert.level]}"></i>&nbsp; {alert.body || alert.message || ''}
         </div>
-
     {/if}
 {/each}
 

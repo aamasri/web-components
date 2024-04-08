@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.2.0",
-  "versionDescription": "Added json-api library, Input and MultiSelect components. Updated Radio component.",
+  "version": "1.2.1",
+  "versionDescription": "Updated Alerts component to display Todos.",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",
