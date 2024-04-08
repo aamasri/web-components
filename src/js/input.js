@@ -1,4 +1,4 @@
-const debug = true;
+const debug = false;
 
 import '../css/core.css';
 import '../css/input.css';

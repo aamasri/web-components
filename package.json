@@ -1,12 +1,10 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.1.17",
-  "versionDescription": "remove Selector.svelte onDestroy cleanup because it didn't prevent memory leaks.",
+  "version": "1.2.0",
+  "versionDescription": "Added json-api library, Input and MultiSelect components. Updated Radio component.",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",
-    "build": "npx webpack --config webpack.config.cjs;",
-    "build-production": "npx webpack --config webpack.config.cjs --mode production;",
     "publish": "node ./publish.js"
   },
   "repository": {
@@ -39,32 +37,5 @@
     "superagent": "^8.x",
     "svelte": "^4.x",
     "zxcvbn": "^4.x"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "^7.12.10",
-    "@babel/plugin-transform-runtime": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "autoprefixer": "^10.2.3",
-    "babel-loader": "^9.x",
-    "css-loader": "^6.x",
-    "date-picker-svelte": "^2.10.0",
-    "file-loader": "^6.2.0",
-    "html-webpack-plugin": "^5.x",
-    "mini-css-extract-plugin": "^2.x",
-    "node-sass": "^9.x",
-    "postcss": "^8.2.4",
-    "postcss-loader": "^7.x",
-    "sass-loader": "^13.x",
-    "style-loader": "^3.x",
-    "stylelint": "^15.x",
-    "stylelint-config-standard": "^34.x",
-    "stylus": "^0.x",
-    "stylus-loader": "^7.x",
-    "svg-inline-loader": "^0.x",
-    "terser-webpack-plugin": "^5.x",
-    "webpack": "^5.x",
-    "webpack-cli": "^5.x"
-  },
-  "main": "publish.js"
+  }
 }

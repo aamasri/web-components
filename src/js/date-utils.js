@@ -199,22 +199,6 @@ export function convertToMs(unixTimestamp=Date.now()) {
 }
 
 
-/**
- * Accepts a user entered date string and returns a Date object of false
- *
- * @param {string} input
- * @return Date|boolean
- */
-export function parseDateString(input) {
-	// Date cannot parse a date with missing year
-	if (!input.match(/(^|\W)\d{4}(\W|$)/))
-		input += ', ' + new Date().getFullYear();
-
-	const parsedDate = newDate(input);
-	return (isNaN(parsedDate.getTime())) ? false : parsedDate;
-}
-
-
 
 /**
  * Accepts a javascript native Date object and returns a nice & concise text representation e.g. Aug 20
@@ -478,6 +462,103 @@ export function dayIndexOf(day) {
 export function getTimestamp(date=new Date()) {
 	return newDate(date).getTime();
 }
+
+
+
+
+/**
+ * Convert any type of date into a valid Date (else null)
+ * Fixes native Date's inability to parse yyyy-mm-dd correctly in negative timezones
+ *
+ * @param {Date|string|number} anything - a date in any format
+ * @return {Date|null} - native date object or null (i.e. unparsable)
+ */
+function toDate(anything) {
+	let date;
+
+	if (anything instanceof Date)                               // easy - it's already a date
+		return anything;
+	else if (typeof anything === 'undefined' || !anything)      // empty => now
+		return new Date();
+	else if (['object', 'function'].includes(typeof anything))  // whatever it is it's not a date
+		return null;
+	else if ((/^[0-9,.]+$/).test((anything || '').toString()))  // if it's a number assume unix timestamp
+		date = new Date(convertToMs(anything));
+	else if (typeof anything === 'string')                      // human date - try to parse it
+		date = parseDateString(anything); // add the current year (if year missing)
+	else
+		return null;
+
+	return (date instanceof Date) ? date : null;                // parsed date else null
+}
+
+
+
+/**
+ * Accepts a user entered date string and returns a Date object or false
+ *
+ * @param {string} input
+ * @return Date|boolean
+ */
+export function parseDateString(input) {
+	if (typeof input !== 'string' || !input)
+		return false;
+
+	input = input.toLowerCase();
+	input = input.replace(/ a | one /, ' 1 ');
+
+	let unixTimestamp = 0;
+	let date = new Date();
+	const currentDay = date.getDate();
+	const currentMonth = date.getMonth();
+	const currentYear = date.getFullYear();
+	const offset = parseFloat(input.replace(/[^0-9]+/, ''));
+
+	if (/to?day|now?/.test(input))
+		unixTimestamp = date;
+	else if (/day after tomm?orr?ow/.test(input))
+		unixTimestamp = date.setDate(currentDay + 2);
+	else if (/tomm?orr?ow/.test(input))
+		unixTimestamp = date.setDate(currentDay + 1);
+	if (/day before yeste?rda?y/.test(input))
+		unixTimestamp = date.setDate(currentDay - 2);
+	else if (/yeste?rda?y/.test(input))
+		unixTimestamp = date.setDate(currentDay - 1);
+	else if (/next mo?nth?/.test(input))
+		unixTimestamp = date.setMonth(currentMonth + 1);
+	else if (/last mo?nth?/.test(input))
+		unixTimestamp = date.setMonth(currentMonth - 1);
+	else if (/next yea?r/.test(input))
+		unixTimestamp = date.setFullYear(currentYear + 1);
+	else if (/last yea?r/.test(input))
+		unixTimestamp = date.setFullYear(currentYear - 1);
+	else if (/yea?r/.test(input)) {
+		if (/in [0-9]+ yea?rs?/.test(input))
+			unixTimestamp = date.setFullYear(currentYear + offset);
+		else if (/[0-9]+ yea?rs? ago/.test(input))
+			unixTimestamp = date.setFullYear(currentYear - offset);
+	}
+	else if (/mo?nth?/.test(input)) {
+		if (/in [0-9]+ mo?nth?/.test(input))
+			unixTimestamp = date.setMonth(currentMonth + offset);
+		else if (/[0-9]+ mo?nth?s? ago/.test(input))
+			unixTimestamp = date.setMonth(currentMonth - offset);
+	}
+	else if (/day/.test(input)) {
+		if (/in [0-9]+ day?/.test(input))
+			unixTimestamp = date.setDate(currentDay + offset);
+		else if (/[0-9]+ days? ago/.test(input))
+			unixTimestamp = date.setDate(currentDay - offset);
+	}
+
+	if (!unixTimestamp && input && !input.match(/(^|\W)\d{4}(\W|$)/))
+		input += ', ' + new Date().getFullYear();   // Date cannot parse a date string with missing year
+
+	date = unixTimestamp ? new Date(unixTimestamp) : newDate(input);
+	return (isNaN(date.getTime())) ? false : date;
+}
+
+
 
 
 /**

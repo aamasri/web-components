@@ -1,5 +1,5 @@
 <script>
-    const debug = true;
+    const debug = false;
 
     import {createEventDispatcher} from "svelte";
     const dispatch = createEventDispatcher();

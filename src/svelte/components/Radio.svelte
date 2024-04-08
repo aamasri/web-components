@@ -1,11 +1,11 @@
 <script>
     const debug = false;
-    import { createEventDispatcher, tick } from 'svelte';
+    import {createEventDispatcher, tick} from 'svelte';
 
     export let selectedValue = false;
     export let items = [
-        { label: 'Active', value: false, color: '' },
-        { label: 'Archived', value: true, color: '' }
+        {label: 'Active', value: false, color: ''},
+        {label: 'Archived', value: true, color: ''}
     ];
     export let size = '';
 
@@ -23,11 +23,9 @@
         if (debug) console.log(`setRadio to ${selectedValue}`)
 
         await tick();   // so that parent component sees updated radio DOM
-        dispatch('change');
+        dispatch('change', selectedValue);
     }
 </script>
-
-
 
 
 {#if items.length > 1}
@@ -36,7 +34,7 @@
             <button type="button"
                     class="{item.value == selectedValue ? 'active' : ''} btn btn-outline-{item.color ? 'light' : 'secondary'}"
                     style="{item.color ? `color: ${item.color} !important; border-color: ${item.color};` : ''}"
-                    data-value ={item.value}
+                    data-value={item.value}
                     on:click={setRadioValue}>
                 <span class="fa-solid fa-check"> &nbsp;</span> {item.label}
             </button>
@@ -45,20 +43,23 @@
 {/if}
 
 
-
-
 <style lang="stylus" global>
-    .radio
-        .fa-check
-            display none
+  .radio
+    display flex
+    align-items center
 
-        button.active
-            cursor default
-            box-shadow none
+    .fa-check
+      display none
 
-            .fa-check
-                display inline
+    button.active
+      cursor default
+      box-shadow none
 
-        .btn-outline-secondary:not(.active):not(:hover)
-            background-color white  // hide shadow spill from sibling button
+      .fa-check
+        display inline
+
+    .btn-outline-secondary:not(.active):not(:hover)
+      background-color white
+
+  // hide shadow spill from sibling button
 </style>
