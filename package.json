@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.2.1",
-  "versionDescription": "Updated Alerts component to display Todos.",
+  "version": "1.2.3",
+  "versionDescription": "Upgraded Search component onchange detail and clear button.",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",

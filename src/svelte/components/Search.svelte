@@ -1,16 +1,18 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
-
     export let searchString = '';
     export let placeholder = 'Search';
 
     let debounceDelay;
+
+    import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
     const dispatchChange = () => {
         window.clearTimeout(debounceDelay);
         debounceDelay = window.setTimeout(() => dispatch('change'), 800);
     }
 </script>
+
+
 
 <div class="search input-group">
     <span class="input-group-text"><i class="fas fa-search"></i></span>
