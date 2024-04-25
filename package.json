@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.2.4",
-  "versionDescription": "Upgraded Search component with onchange detail and a clear search button.",
+  "version": "1.2.5",
+  "versionDescription": "Fixed an error in Input with null values.",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",

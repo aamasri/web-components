@@ -9,6 +9,7 @@
     export let endpoint = '';
     export let field = '';
     export let editable = false;
+    export let nullable = false;    // may be empty (in the case of dates and numbers)
     export let min=0;
     export let max=0;
 
@@ -18,7 +19,7 @@
     let inputElement = null;
     let shadowElement = null;
 
-    import { apiUpdate, notify } from '../../js/json-api.js';
+    import { apiUpdate, notify } from '@aamasri/web-components/src/js/json-api.js';
     import {
         parseDateString,
         monthDay,
@@ -27,6 +28,11 @@
 
     import {createEventDispatcher} from 'svelte';
     const dispatch = createEventDispatcher();
+    import { onMount } from 'svelte';
+    onMount(() => {
+        initialValue = value;
+        if (debug) console.log(`mounted Input ${field}:${value}`);
+    });
 
 
     async function save(event) {
@@ -39,16 +45,19 @@
         if (event.type === 'blur' || event.key === 'Enter' || event.key === 'Tab') {
             let value = event.target.value.trim();
 
+            console.log(`save ${type}`, value);
             // validation
             switch (type) {
                 case 'number':
                     // is a number
-                    ((/^[0-9,.]+$/).test(value.toString()))
-                    value = parseFloat(value.replace(/,/g, ''));
-                    if (isNaN(value)) {
-                        notify(`"${value}" is not a valid number!`, 'error', inputElement);
-                        event.target.value = format(initialValue);
-                        return;
+                    if (!nullable || (/^[0-9,.]+$/).test(value.toString())) {
+                        value = parseFloat(value.replace(/,/g, ''));
+                        console.log('save number', value, initialValue, isNaN(value), isNaN(initialValue));
+                        if (isNaN(value) && !isNaN(initialValue)) {
+                            notify(`"${value}" is not a valid number!`, 'error', inputElement);
+                            event.target.value = format(initialValue);
+                            return;
+                        }
                     }
 
                     // min/max
@@ -100,7 +109,7 @@
                     break;
             }
 
-            if ((value !== initialValue) && status !== 'saving') {
+            if ((format(value) !== format(initialValue)) && status !== 'saving') {
                 if (debug) console.log(`save Input ${field} ${value}`);
 
                 if (endpoint) {
@@ -192,13 +201,12 @@
     }
 
 
-
     function format(value) {
         window.setTimeout(adjustInputWidth, 100);   // resize input after rendering
 
         switch (type) {
             case 'number':
-                value = value.toLocaleString();
+                value = ([null, undefined, ''].includes(value) || isNaN(value)) ? '' : value.toLocaleString();
                 break;
 
             case 'date':
@@ -212,8 +220,6 @@
 </script>
 
 
-
-
 <input type="text" bind:this={inputElement}
        data-id={id}
        class="input {classes} {field} {status}"
@@ -224,8 +230,7 @@
        on:paste={adjustInputWidth}
        on:keyup={adjustInputWidth}
        on:click
-       value={format(value)} ><span bind:this={shadowElement} class="input-shadow">{format(value)}</span>
-
+       value={format(value)}><span bind:this={shadowElement} class="input-shadow">{format(value)}</span>
 
 
 <style lang="stylus" global>
@@ -248,10 +253,13 @@
       &:hover
       &:focus
         border-bottom 1px solid var(--text-color-editable)
+
       &.saving
         border-bottom 1px solid var(--bs-warning)
+
       &.saved
         border-bottom 1px solid var(--bs-success)
+
       &.error
         border-bottom 1px solid var(--bs-danger)
 
@@ -261,5 +269,7 @@
     font-weight inherit
     visibility hidden;
     z-index -1
-    white-space nowrap  // So it doesn't wrap and gives correct width
+    white-space nowrap
+
+  // So it doesn't wrap and gives correct width
 </style>
