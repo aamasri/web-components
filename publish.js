@@ -1,4 +1,5 @@
-import packageJson from './package.json' assert {type: 'json'};
+console.log(`node/npm versions (node: ${process.version}, npm: ${process.env.npm_version})`);
+import packageJson from './package.json' with { type: "json" };
 const version = packageJson.version;
 const description = packageJson.versionDescription;
 
@@ -20,15 +21,6 @@ if (lastCommitMessage.includes(version) || lastCommitMessage.includes(descriptio
 
 console.info(`  installing npm dependencies...`);
 runShell('npm install');
-
-/*
-console.info(`  building browser dist folder...`);
-buildOutput = runShell('npm run build-production');
-if (!buildOutput.includes('compiled successfully')) {
-    console.error(`**ABORTING: "npm run build-production  failed`);
-    process.exit(0);
-}
-*/
 
 console.info(`  git staging modified/deleted/new files...`);
 runShell(`git add --all`);

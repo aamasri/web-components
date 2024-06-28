@@ -19,7 +19,7 @@
     let inputElement = null;
     let shadowElement = null;
 
-    import { apiUpdate, notify } from '@aamasri/web-components/src/js/json-api.js';
+    import { patch, notify } from '@aamasri/web-components/src/js/json-api.js';
     import {
         parseDateString,
         monthDay,
@@ -115,7 +115,7 @@
                 if (endpoint) {
                     try {
                         setStatus('saving');
-                        const response = await apiUpdate(endpoint, '', { [field]: value });
+                        const response = await patch(endpoint, '', { [field]: value });
                         setStatus('saved');
                         value = response.data[field];
                         event.target.value = format(value);

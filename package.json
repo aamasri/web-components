@@ -1,11 +1,11 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.2.5",
-  "versionDescription": "Fixed an error in Input with null values.",
+  "version": "1.3.0",
+  "versionDescription": "Updated json-api to use fetch method verbs.",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",
-    "publish": "node ./publish.js"
+    "publish": "node publish.js"
   },
   "repository": {
     "type": "git",
@@ -34,7 +34,7 @@
     "growl-js": "^1.x",
     "libphonenumber-js": "^1.x",
     "sane-email-validation": "^3.x",
-    "superagent": "^8.x",
+    "superagent": "^9.x",
     "svelte": "^4.x",
     "zxcvbn": "^4.x"
   }

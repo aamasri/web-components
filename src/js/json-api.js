@@ -12,7 +12,7 @@
                 data: object
             }
 
-    Eg. apiDelete('timesheets', [3342, 5098])
+    Eg. remove('timesheets', [3342, 5098])
             .then(response => {
                 console.log(response);
             }).catch((response) => {
@@ -29,7 +29,7 @@ import {
 } from '../svelte/components/PageProgress/pageProgressStore.js';
 
 
-export async function apiRead(url, filters={}) {
+export async function get(url, filters={}) {
     let queryString = '';
     for (let filter in filters)
         queryString += `&${filter}=${encodeURIComponent(filters[filter])}`;
@@ -37,7 +37,7 @@ export async function apiRead(url, filters={}) {
     queryString = queryString.replace(/^&/, '?');
 
     try {
-        return await jsonFetchApi(url + queryString, 'GET');
+        return await request(url + queryString, 'GET');
     }
     catch(response) {
         throw response;
@@ -46,11 +46,11 @@ export async function apiRead(url, filters={}) {
 
 
 
-export async function apiCreate(tableOrEndpoint, payload, notifyUser=false) {
+export async function post(tableOrEndpoint, payload, notifyUser=false) {
     const url = tableOrEndpoint.includes('/') ? `${tableOrEndpoint}` : `/api/${tableOrEndpoint}`;
 
     try {
-        const response = await jsonFetchApi(url, 'POST', payload)
+        const response = await request(url, 'POST', payload)
         if (notifyUser)
             notify(response.message || `Saved`, 'success');
         else
@@ -65,9 +65,10 @@ export async function apiCreate(tableOrEndpoint, payload, notifyUser=false) {
 }
 
 
+
 // the default endpoint is /api/table/id,
 // but we may specify a bulk entity update with a custom endpoint and filter
-export async function apiUpdate(tableOrEndpoint, idOrFilter, payload, notifyUser=false) {
+export async function patch(tableOrEndpoint, idOrFilter, payload, notifyUser=false) {
     if (typeof idOrFilter === 'object') {
         let queryString = '';
         for (let filter in idOrFilter)
@@ -80,7 +81,7 @@ export async function apiUpdate(tableOrEndpoint, idOrFilter, payload, notifyUser
     const url = tableOrEndpoint.includes('/') ? `${tableOrEndpoint}${idOrFilter}` : `/api/${tableOrEndpoint}/${idOrFilter}`;
 
     try {
-        const response = await jsonFetchApi(url, 'PATCH', payload)
+        const response = await request(url, 'PATCH', payload)
         if (notifyUser)
             notify(response.message || `Saved`, 'success');
 
@@ -95,7 +96,7 @@ export async function apiUpdate(tableOrEndpoint, idOrFilter, payload, notifyUser
 
 
 
-export async function apiDelete(tableOrEndpoint, ids, notifyUser=false) {
+export async function remove(tableOrEndpoint, ids, notifyUser=false) {
     // handle multiple ids in a single request
     if (Array.isArray(ids))
         ids = '?ids=' + encodeURIComponent(ids.join(','));
@@ -104,7 +105,7 @@ export async function apiDelete(tableOrEndpoint, ids, notifyUser=false) {
     const url = tableOrEndpoint.includes('/') ? `${tableOrEndpoint}${ids}` : `/api/${tableOrEndpoint}/${ids}`;
 
     try {
-        const response = jsonFetchApi(url, 'DELETE');
+        const response = request(url, 'DELETE');
         if (notifyUser)
             notify(response.message || `Deleted`, 'success');
         else
@@ -120,7 +121,8 @@ export async function apiDelete(tableOrEndpoint, ids, notifyUser=false) {
 
 
 
-export async function jsonFetchApi(url, method='GET', payload={}) {
+// low level fetch wrapper
+export async function request(url, method='GET', payload={}) {
     incrementLoadingCount();
 
     const acceptableMethods = ['HEAD', 'GET', 'POST', 'PATCH', 'PUT', 'DELETE'];
@@ -182,7 +184,9 @@ export function notify(message, type, target=undefined, duration=undefined) {
             duration: duration,
             target: target
         };
-        growl(options);
+        growl(options).then();
     })
-    .catch(error => { throw `loading growl failed with: ${error.message}`; });
+    .catch(error => {
+        throw `loading growl failed with: ${error.message}`;
+    });
 }
