@@ -229,7 +229,7 @@ export async function* stream(method='POST', url, payload={}) {
 
                 if (jsonLChunk.trim()) {
                     try {
-                        if ($debug || true) console.log('JSONL chunk', jsonLChunk);
+                        if (debug) console.log('JSONL chunk', jsonLChunk);
 
                         // create a classic throttle effect
                         const timeNow = Date.now();

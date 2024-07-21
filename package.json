@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.4.0",
-  "versionDescription": "added a JSONL 'stream' request to the json-api and 'delay' function to date-utils.",
+  "version": "1.4.1",
+  "versionDescription": "fixed undefined bug in json-api 'stream' function.",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",
