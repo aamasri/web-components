@@ -1,4 +1,3 @@
-console.log(`node/npm versions (node: ${process.version}, npm: ${process.env.npm_version})`);
 import packageJson from './package.json' with { type: "json" };
 const version = packageJson.version;
 const description = packageJson.versionDescription;

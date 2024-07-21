@@ -669,3 +669,16 @@ export function relativeDate(timestamp){
             return (years <= 1) ? `${prefix}one year${postfix}` : `${prefix}${years} years${postfix}`;
     }
 }
+
+
+
+/**
+ * Delays execution for a specified number of milliseconds.
+ *
+ * @param {number} ms - The number of milliseconds to delay the execution.
+ * @returns {Promise<void>} A promise that resolves after the specified delay.
+ */
+export function delay(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+

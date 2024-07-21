@@ -21,12 +21,15 @@
 */
 
 
+
 const debug = false;
 
 import {
     incrementLoadingComplete,
     incrementLoadingCount
 } from '../svelte/components/PageProgress/pageProgressStore.js';
+import {delay} from "./date-utils.js";
+
 
 
 export async function get(url, filters={}) {
@@ -189,4 +192,70 @@ export function notify(message, type, target=undefined, duration=undefined) {
     .catch(error => {
         throw `loading growl failed with: ${error.message}`;
     });
+}
+
+
+
+
+// This function makes a request to a (JSONL formatted) streaming API.
+// It processes the groups the stream on JSONL chunks, and 'yielding' them back as a 'generator'
+export async function* stream(method='POST', url, payload={}) {
+    if (![ 'GET', 'POST' ].includes(method))
+        throw `fn stream expects the method to be GET or POST`;
+
+    try {
+        const response = await fetch(url, {
+            method: method,
+            headers: { 'Accept': 'application/jsonl' },
+            body: (typeof payload === 'string') ? payload : JSON.stringify(payload)
+        });
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+        let time = Date.now();
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done)
+                break;
+
+            buffer += decoder.decode(value, { stream: true });
+
+            // Process JSON chunks
+            let boundary;
+            while ((boundary = buffer.indexOf('\n')) > -1) {
+                const jsonLChunk = buffer.slice(0, boundary).trim();
+                buffer = buffer.slice(boundary + 1);    // buffer is now the remainder
+
+                if (jsonLChunk.trim()) {
+                    try {
+                        if ($debug || true) console.log('JSONL chunk', jsonLChunk);
+
+                        // create a classic throttle effect
+                        const timeNow = Date.now();
+                        if (timeNow - time < 1000) {
+                            time = timeNow;
+                            await delay(1);     // 1mS
+                        }
+
+                        yield JSON.parse(jsonLChunk);
+                    } catch (error) {
+                        throw `Parsing JSON chunk failed with: ${error}`;
+                    }
+                }
+            }
+        }
+
+        // Process leftovers in the buffer (if any)
+        if (buffer.trim()) {
+            try {
+                yield JSON.parse(buffer);
+            } catch (error) {
+                throw `The stream may have been truncated as parsing the last chunk failed with: ${error}`;
+            }
+        }
+
+    } catch(error) {
+        console.error(`Streaming from ${url} failed with`, error);
+    }
 }
