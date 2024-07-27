@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.4.1",
-  "versionDescription": "fixed undefined bug in json-api 'stream' function.",
+  "version": "1.4.2",
+  "versionDescription": "Added Selector doropdown toggle & modified the component's icons.",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",

@@ -10,8 +10,8 @@
     export let subItems = [];
     export let selectedItem = false;
     export let selectedSubItem = false;
-    export let addOnLabel = '';
-    export let addOnIcon = 'fas fa-search';
+    export let addOnIcon = '';  // e.g. "fa-solid fa-info"
+    export let addOnLabel = ''; // e.g. "Help"
     export let placeholder = 'Search';
     export let persistent = true;   // retains the selected values like a browser select component
     export let size = '';   // bootstrap sm, lg etc. for input-group
@@ -20,6 +20,7 @@
     export let autofocus = false;
 
     let searchString = '';
+    let initiallyExpanded = expanded;
 
     function getMatchingItems(searchString, items, expanded) {
         let matchingItems;
@@ -55,9 +56,9 @@
             selectedItem = event.target.closest('li').dataset.key;
             if (debug) console.log(`selected ${selectedItem} from ${placeholder} selector`)
 
-            // there are no sub-items then we've got our selection
+            // there are no subitems then we've got our selection
             if (subItems.length) {
-                // if the component overflows the screen width, then align the sub-item list with the window right edge
+                // if the component overflows the screen width, then align the subitem list with the window right edge
                 await tick();
                 const thisSelector = event.target.closest('.selector-component');
                 const list = thisSelector.querySelector('.matchingItems');
@@ -71,6 +72,7 @@
             } else {
                 dispatch('change', { item: selectedItem });
                 clearSearch();
+                expanded = initiallyExpanded;
             }
         } else if (isSubItem && selectedItem) {
             selectedSubItem = event.target.closest('li').dataset.key;
@@ -109,7 +111,14 @@
                 if (debug) console.log(`scrolling to selected item ${selectedItem}`);
             }
         }
+
+        initiallyExpanded = expanded;
     });
+
+
+    function toggleExpanded() {
+        expanded = !expanded;
+    }
 </script>
 
 
@@ -117,20 +126,21 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div id="{id}" class="selector-component">
     <div class="input-group {size ? `input-group-${size}` : ''}">
+        <button class="btn btn-outline-{color}" disabled><i class="fa-solid fa-search"></i></button>
         <input type="text" class="form-control"
-                bind:value={searchString}
-                on:keyup={search}
-                on:cut={search}
-                on:paste={search}
-                on:change={search}
-                placeholder={placeholderValue(selectedItem, items, selectedSubItem, subItems)}
+               bind:value={searchString}
+               on:keyup={search}
+               on:cut={search}
+               on:paste={search}
+               on:change={search}
+               placeholder={placeholderValue(selectedItem, items, selectedSubItem, subItems)}
                {autofocus}>
         {#if searchString}
             <button class="btn btn-outline-secondary" on:click={clearSearch}>
                 <i class="reset fas fa-times"></i>
             </button>
         {/if}
-        <button class="btn btn-outline-{color}" disabled>
+        <button class="btn btn-outline-{color}" on:click={toggleExpanded}>
             <i class="caret fas fa-chevron-down"></i>
             {#if addOnIcon}
                 &nbsp;<i class="{addOnIcon}"></i>
@@ -171,52 +181,55 @@
 
 
 <style lang="stylus" global>
-    .selector-component
-        display: inline-block
+  .selector-component
+    display: inline-block
 
-        .lists
-            display flex
-            justify-content start
-            align-items start
+    .lists
+      display flex
+      justify-content start
+      align-items start
 
-            ul
-                border-radius var(--form-border-radius, 0.5rem)
-                border-top-left-radius 0
-                border-top-right-radius 0
-                border 1px solid var(--border-color-light)
-                background-color #fff
-                max-height 30vh
-                overflow auto
-                scrollbar-width thin
+      ul
+        border-radius var(--form-border-radius, 0.5rem)
+        border-top-left-radius 0
+        border-top-right-radius 0
+        border 1px solid var(--border-color-light)
+        background-color #fff
+        max-height 30vh
+        overflow auto
+        scrollbar-width thin
+        padding 0
+        margin 0
 
-                li
-                    line-height 1.1
-                    margin 0
-                    padding 0.5rem var(--variable-button-h-padding, 1rem)
-                    opacity 0.9
-                    cursor pointer
+        li
+          line-height 1.1
+          margin 0
+          padding 0.5rem var(--variable-button-h-padding, 1rem)
+          opacity 0.9
+          cursor pointer
+          list-style none
 
-                    &.selected
-                    .selected
-                        cursor default
+          &.selected
+          .selected
+            cursor default
 
-                    &.selected
-                    .selected
-                    &:hover
-                    :hover
-                        opacity 1
-                        color var(--bs-success)
+          &.selected
+          .selected
+          &:hover
+          :hover
+            opacity 1
+            color var(--bs-success)
 
-                &:not(.last)
-                    li.selected::after
-                        content "  ▶"
+        &:not(.last)
+          li.selected::after
+            content "  ▶"
 
-                &.subItems
-                    border-top-right-radius var(--form-border-radius, 0.5rem)
-                    margin 1rem 0 0 -1px
-                    right 0
+        &.subItems
+          border-top-right-radius var(--form-border-radius, 0.5rem)
+          margin 1rem 0 0 -1px
+          right 0
 
-                    li.selected::after
-                        content ""
+          li.selected::after
+            content ""
 
 </style>
