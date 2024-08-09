@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.4.2",
-  "versionDescription": "Added Selector doropdown toggle & modified the component's icons.",
+  "version": "1.4.3",
+  "versionDescription": "Fixed json-api sending a request body for GET requests.",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",

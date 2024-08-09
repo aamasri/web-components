@@ -204,11 +204,15 @@ export async function* stream(method='POST', url, payload={}) {
         throw `fn stream expects the method to be GET or POST`;
 
     try {
-        const response = await fetch(url, {
+        const options = {
             method: method,
-            headers: { 'Accept': 'application/jsonl' },
-            body: (typeof payload === 'string') ? payload : JSON.stringify(payload)
-        });
+            headers: { 'Accept': 'application/jsonl' }
+        }
+        const body = (typeof payload === 'string') ? payload : JSON.stringify(payload);
+        if (body !== '{}')
+            options.body = body;
+
+        const response = await fetch(url, options);
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
         let buffer = '';
