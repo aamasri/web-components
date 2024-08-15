@@ -1,14 +1,10 @@
 <script>
-    // Manage members of a group from a fixed pool. E.g. project sectors, scopes, users etc.
+    // Manage members of a group from a fixed pool. E.g., project sectors, scopes, users, etc.
     const debug = false;
 
-    export let name = 'Fruit';
+    export let name = '';
     export let icon = '';
-    export let options = [
-        { id: 0, value: 'Apples' },
-        { id: 1, value: 'Oranges' },
-        { id: 2, value: 'Bananas' }
-    ];
+    export let options = [];
     export let members = [ 0, 1 ];
     export let expectedNumMembers = 0;
     export let maxMembers = 0;
