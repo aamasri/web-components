@@ -44,46 +44,54 @@
 
         checked = !checked;     // toggle checkbox
         await tick();           // so that parent component sees updated checkbox DOM
-        dispatch('change', { field: field, value: checked });
+        dispatch('change', {field: field, value: checked});
     }
 </script>
 
 
-
-
 <button type="button"
-        class="checkbox {classes} {checked ? 'active' : ''} btn {size ? `btn-${size}` : ''} btn-outline-{color ? 'light' : 'secondary'}"
+        class="checkbox {classes} {checked ? 'active' : ''} {label ? 'hasLabel' : ''} btn {size ? `btn-${size}` : ''} btn-outline-{color ? 'light' : 'secondary'}"
         style="{color ? `color: ${color} !important; border-color: ${color};` : ''}"
-        data-field = {field}
+        data-field={field}
         disabled="{disabled}"
         on:mousedown={handleEvent}
         on:touchstart={handleEvent}
         on:mouseup={handleEvent}
         on:touchend={handleEvent}
         on:contextmenu|preventDefault={() => dispatch('hold')}>
-    <span class="fa-solid fa-check"> &nbsp;</span> {@html label}
+    <i class="fa-solid fa-check"></i><i class="spacer"> &nbsp; </i>{@html label }
 </button>
 
 
-
-
 <style lang="stylus" global>
-    button.checkbox
-        // try to make button stay the same size checked or unchecked
-        padding-left 1.5em
-        padding-right 1.5em
+  button.checkbox
+    padding-left 0.65em
+    padding-right 0.65em
 
-        .fa-check
-            display none
+    .fa-check
+      visibility hidden
+      display inline
 
-        &.active
-            padding-left 0.75rem
-            padding-right 0.75rem
-            box-shadow none
+    &.hasLabel:not(.active)
+      padding-left 1.35em
+      padding-right 1.35em
 
-            .fa-check
-                display inline
+      .fa-check
+        display none
 
-        .btn-outline-secondary:not(.active):not(:hover)
-            background-color white  // hide shadow spill from sibling button
+    .spacer
+      display none
+
+    &.active
+      box-shadow none
+
+      .fa-check
+        visibility visible
+
+      &.hasLabel
+        .spacer
+          display inline
+
+    .btn-outline-secondary:not(.active):not(:hover)
+      background-color white
 </style>
