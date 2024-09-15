@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.6.0",
-  "versionDescription": "Improved Alerts.svelte component. Added image.js, string-prototypes.js, and string-utils.js",
+  "version": "1.6.1",
+  "versionDescription": "Added sha1.js, file-utils.js",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",
