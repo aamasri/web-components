@@ -1,6 +1,8 @@
 <script>
     // render an array of alerts recognizing highlighted classes "danger", "info", "warning"
     export let alerts = [ { message: 'test', level: 'secondary', format: 'inline'} ];
+    export let format = 'inline';
+    export let separator = ', ';
 
     const icons = {
         '': 'fas fa-info-circle',
@@ -16,16 +18,14 @@
 
 
 {#each alerts as alert, i}
-    {#if (alert.format === 'text')}
-        {#if i}, {/if}
-        <i class="text-{alert.level} {icons[alert.level]}"></i>
-        <span class="text-{alert.level}">{alert.body || alert.message || ''}</span>
-    {:else if (alert.format === 'box')}
-        <div class="alert alert-{alert.level}" role="alert">
-            <i class="{icons[alert.level]}"></i>&nbsp; {alert.body || alert.message || ''}
-        </div>
+    {#if ((alert.format || format) === 'text')}
+        {#if i}{separator}{/if}
+        <span class="text-{alert.level}">
+            <i class="text-{alert.level} {icons[alert.level]}"></i>
+            {alert.body || alert.message || ''}
+        </span>
     {:else}
-        <div style="display: inline-block; margin-right: 1em;" class="alert alert-{alert.level}" role="alert">
+        <div class="alert alert-{alert.level} {format}" role="alert">
             <i class="{icons[alert.level]}"></i>&nbsp; {alert.body || alert.message || ''}
         </div>
     {/if}
@@ -35,4 +35,7 @@
 
 
 <style lang="stylus" global>
+  .alert.inline
+    display inline-block
+    margin-right 1em
 </style>
