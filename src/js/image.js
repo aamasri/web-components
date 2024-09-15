@@ -4,7 +4,7 @@
  */
 
 const debug = false;
-import { getRootUrl } from './file-utils';
+import { getRootUrl } from './file-utils.js';
 
 
 /**

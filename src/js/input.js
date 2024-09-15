@@ -2,7 +2,7 @@ const debug = false;
 
 import '../css/core.css';
 import '../css/input.css';
-import { update } from './api';
+import { update } from './api.js';
 
 
 const body = document.querySelector('body');

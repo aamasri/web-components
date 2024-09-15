@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.6.1",
-  "versionDescription": "Added sha1.js, file-utils.js",
+  "version": "1.6.2",
+  "versionDescription": "Fixed a local imports causing a vite error",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",
