@@ -4,7 +4,6 @@
  */
 
 const debug = false;
-import { getRootUrl } from './file-utils.js';
 
 
 /**
@@ -59,63 +58,67 @@ export function stripWebp() {
 
 
 
-
 // replace any low quality (marked with "upgradeMe") with its hi quality counterpart
-// TODO ideally should not depend on jQuery (for sveltekit apps)
 export async function upgradeThumbnails() {
     if (typeof window === 'undefined')
-        return; // prevent sveltekit server-side rendering from breaking
+        return; // prevent SvelteKit server-side rendering from breaking
 
     // find any upgradeable images
-    let upgradeableImages = document.querySelectorAll('.upgradeMe');
+    const upgradeableImages = document.querySelectorAll('.upgradeMe');
     if (!upgradeableImages.length)
         return;
 
-    if (typeof window.jQuery === 'undefined')
-        window.jQuery = await import('jquery').default;
+    let webpSupported = false;
+    try {
+        const { webpSupport } = await import('@aamasri/dom-utils');
+        await webpSupport();
+        webpSupported = true;
+    } catch {}
 
+    const { getRootUrl } = await import('./file-utils.js');
 
-    let replacementUrl;
     let imageCount = 0;
     upgradeableImages.forEach(img => {
-        const $targetImg = jQuery(img);
-        const sourceUrl = (img.nodeName === 'IMG') ? img.src : $targetImg.css('background-image').replace('url(', '').replace(')', '').replace('"', '');
+        const sourceUrl = img.nodeName === 'IMG'
+            ? img.src
+            : getComputedStyle(img).backgroundImage.replace('url("', '').replace('")', '');
 
         // upgrade if the thumbnail is not big enough (or if we don't know yet)
-        let width = $targetImg.width();
+        const width = img.nodeName === 'IMG' ? img.width : img.offsetWidth;
         if (width && (width <= 320))
-            return;     // don't upgrade a thumbnail that's already a great fit
+            return; // don't upgrade a thumbnail that's already a great fit
 
-        replacementUrl = getRootUrl(sourceUrl);	// determine the url of the high-quality image
-
+        const replacementUrl = getRootUrl(sourceUrl); // determine the url of the high-quality image
         if (sourceUrl === replacementUrl)
-            return;	    // already high-res - next image
+            return; // already high-res - next image
 
-        if ($targetImg.attr('srcset') && ('browserInfo' in window && 'webpSupport' in window.browserInfo) && window.browserInfo.webpSupport)
-            return;	    // when there's a srcset the browser should ignore the src attribute - next image
+        if (img.hasAttribute('srcset') && webpSupported)
+            return; // when there's a srcset the browser should ignore the src attribute - next image
 
-        $targetImg.addClass(`backgroundLoadingImage-${++imageCount}`);	// mark the lo-res image so that we can replace it once the hi-res image has loaded
+        img.classList.add(`backgroundLoadingImage-${++imageCount}`); // mark the lo-res image
 
         // create a tiny temporary hi-res image with a load handler to replace the initial lo-res image
-        // as soon as it's hi-res image finishes loading
-        jQuery(`<img id="backgroundLoadingImage-${imageCount}" src="${replacementUrl}" style="width: 1px; visibility: hidden;" alt="">`)
-            .appendTo('body')
-            .on('load',  function() {
-                const imgRef = this.id;
-                const $targetImg = jQuery(`.upgradeMe.${imgRef}`);
+        const tempImg = new Image();
+        tempImg.id = `backgroundLoadingImage-${imageCount}`;
+        tempImg.src = replacementUrl;
+        tempImg.style.width = '1px';
+        tempImg.style.visibility = 'hidden';
+        tempImg.alt = '';
 
-                // upgrade the lo-res image
-                if ($targetImg.is('img'))
-                    $targetImg.attr('src', this.src);
-                else
-                    $targetImg.css('background-image', `url(${this.src})`);
+        // use the image load event to upgrade the lo-res image
+        tempImg.addEventListener('load', function() {
+            const targetImg = document.querySelector(`.upgradeMe.${this.id}`);
+            if (targetImg.nodeName === 'IMG')
+                targetImg.src = this.src;
+            else
+                targetImg.style.backgroundImage = `url(${this.src})`;
 
-                // cleanup, remove .backgroundLoadingImage-*, upgradeMe classes
-                $targetImg.removeClass(function (index, className) {
-                    return className.match(/backgroundLoadingImage\S+|upgradeMe/gi) || [];
-                });
-                this.remove();	// remove temp image
-            });
+            // cleanup, remove .backgroundLoadingImage-*, upgradeMe classes
+            targetImg.classList.remove(...Array.from(targetImg.classList).filter(className => className.match(/backgroundLoadingImage\S+|upgradeMe/gi)));
+            this.remove(); // remove temp image
+        });
+
+        document.body.appendChild(tempImg);
     });
 }
 
@@ -123,13 +126,13 @@ export async function upgradeThumbnails() {
 
 
 /* given an image element, e.g.
-    <img src="/uploads/manascisaac/portfolio/670/elderesforweb5_thumb.jpg"
-        srcset="/uploads/manascisaac/portfolio/670/elderesforweb5_320w.webp 320w,
-            /uploads/manascisaac/portfolio/670/elderesforweb5_640w.webp 640w,
-            /uploads/manascisaac/portfolio/670/elderesforweb5_960w.webp 960w,
-            /uploads/manascisaac/portfolio/670/elderesforweb5_1200w.webp 1200w,
-            /uploads/manascisaac/portfolio/670/elderesforweb5_1800w.webp 1800w,
-            /uploads/manascisaac/portfolio/670/elderesforweb5.webp 2400w">
+    <img src="/uploads/auro/portfolio/670/image-for-web5_thumb.jpg"
+        srcset="/uploads/auro/portfolio/670/image-for-web5_320w.webp 320w,
+            /uploads/auro/portfolio/670/image-for-web5_640w.webp 640w,
+            /uploads/auro/portfolio/670/image-for-web5_960w.webp 960w,
+            /uploads/auro/portfolio/670/image-for-web5_1200w.webp 1200w,
+            /uploads/auro/portfolio/670/image-for-web5_1800w.webp 1800w,
+            /uploads/auro/portfolio/670/image-for-web5.webp 2400w">
 
     return the image's max or existing natural width
  */
