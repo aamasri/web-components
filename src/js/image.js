@@ -86,7 +86,7 @@ export async function upgradeThumbnails() {
         // upgrade if the thumbnail is not big enough (or if we don't know yet)
         const width = img.nodeName === 'IMG' ? img.width : img.offsetWidth;
         if (width && (width <= 320))
-            return; // don't upgrade a thumbnail that's already a great fit
+            return; // don't upgrade a thumbnail confined to a small size
 
         const replacementUrl = getRootUrl(sourceUrl); // determine the url of the high-quality image
         if (sourceUrl === replacementUrl)

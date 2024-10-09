@@ -54,6 +54,11 @@ String.prototype.ucFirst = function() {
 };
 
 
+String.prototype.lcFirst = function() {
+    return this.charAt(0).toLowerCase() + this.slice(1);
+};
+
+
 String.prototype.ucWords = function() {
     return (this + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) {
         return $1.toUpperCase();

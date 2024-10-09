@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.6.3",
-  "versionDescription": "removed jQuery dependency from upgradeThumbnails()",
+  "version": "1.6.4",
+  "versionDescription": "added string prototype lcFirst",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",
