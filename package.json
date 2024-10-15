@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.6.4",
-  "versionDescription": "added string prototype lcFirst",
+  "version": "1.6.5",
+  "versionDescription": "Input.svelte resizing is now aware of style changes",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",

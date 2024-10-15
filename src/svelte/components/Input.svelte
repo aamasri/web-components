@@ -9,7 +9,7 @@
     export let endpoint = '';
     export let field = '';
     export let editable = false;
-    export let nullable = false;    // may be empty (in the case of dates and numbers)
+    export let nullable = false;    // could be empty (in the case of dates and numbers)
     export let min=0;
     export let max=0;
 
@@ -18,22 +18,27 @@
     let timeoutId;
     let inputElement = null;
     let shadowElement = null;
+    let resizeObserver;     // used to resize the input element when styles change its width
+    let resizingLocked = false;       // prevent resizing loops
 
     import { patch, notify } from '@aamasri/web-components/src/js/json-api.js';
-    import {
-        parseDateString,
-        monthDay,
-        convertToMs,
-    } from '@aamasri/web-components/src/js/date-utils';
-
+    import { parseDateString, monthDay, convertToMs, } from '@aamasri/web-components/src/js/date-utils';
     import {createEventDispatcher} from 'svelte';
     const dispatch = createEventDispatcher();
-    import { onMount } from 'svelte';
+
+    import { onMount, onDestroy } from 'svelte';
     onMount(() => {
+        // observe resizing the input element when styles change its width
+        resizeObserver = new ResizeObserver(adjustInputWidth);
+        resizeObserver.observe(inputElement);
+
         initialValue = value;
         if (debug) console.log(`mounted Input ${field}:${value}`);
     });
-
+    onDestroy(() => {
+        if (resizeObserver)
+            resizeObserver.disconnect();
+    });
 
     async function save(event) {
         adjustInputWidth(event);
@@ -160,6 +165,9 @@
 
 
     function adjustInputWidth(event) {
+        if (resizingLocked)
+            return;
+
         if (event) {
             if (event.key && [ 'Enter', 'Tab', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Escape', 'Shift', 'Control', 'CapsLock', 'Meta', 'Alt' ].includes(event.key))
                 return;
@@ -168,9 +176,17 @@
         if (!inputElement || !shadowElement)
             return;
 
+        const textContent = inputElement.value || placeholder;
+        if (shadowElement.textContent !== textContent)
+            shadowElement.textContent = textContent
+        const shadowElementWidth = shadowElement.offsetWidth;
+        if (!shadowElementWidth)
+            return;
+
         const extraWidth = inputElement === document.activeElement ? 18 : 2;
-        shadowElement.textContent = inputElement.value || placeholder;
+        resizingLocked = true;
         inputElement.style.width = (shadowElement.offsetWidth + extraWidth) + 'px';
+        resizingLocked = false;
         if (debug) console.log(`adjust input width for "${shadowElement.textContent}" to ${inputElement.style.width}`);
     }
 
@@ -180,7 +196,7 @@
      * Fixes native Date's inability to parse yyyy-mm-dd correctly in negative timezones
      *
      * @param {Date|string|number} anything - a date in any format
-     * @return {Date|null} - native date object or null (i.e. unparsable)
+     * @return {Date|null} - native date object or null (i.e., unparsable)
      */
     function toDate(anything) {
         let date;
@@ -188,9 +204,9 @@
             return anything;
         else if (typeof anything === 'undefined' || !anything)      // empty
             return null;
-        else if (['object', 'function'].includes(typeof anything))  // whatever it is it's not a date
+        else if (['object', 'function'].includes(typeof anything))  // whatever it is, it's not a date
             return null;
-        else if ((/^[0-9,.]+$/).test((anything || '').toString()))  // if it's a number assume unix timestamp
+        else if ((/^[0-9,.]+$/).test((anything || '').toString()))  // if it's a number, assume unix timestamp
             date = new Date(convertToMs(anything));
         else if (typeof anything === 'string')                      // human date - try to parse it
             date = parseDateString(anything); // add the current year (if year missing)
@@ -220,6 +236,7 @@
 </script>
 
 
+
 <input type="text" bind:this={inputElement}
        data-id={id}
        class="input {classes} {field} {status}"
@@ -231,6 +248,7 @@
        on:keyup={adjustInputWidth}
        on:click
        value={format(value)}><span bind:this={shadowElement} class="input-shadow">{format(value)}</span>
+
 
 
 <style lang="stylus" global>
@@ -267,9 +285,7 @@
     position absolute
     font-size inherit
     font-weight inherit
-    visibility hidden;
+    visibility hidden
     z-index -1
-    white-space nowrap
-
-  // So it doesn't wrap and gives correct width
+    white-space nowrap  /* So it doesn't wrap and provides correct width */
 </style>
