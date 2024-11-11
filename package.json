@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.6.5",
-  "versionDescription": "Input.svelte resizing is now aware of style changes",
+  "version": "1.6.6",
+  "versionDescription": "Upgraded packages, removed comments from svelte.",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",
@@ -35,7 +35,7 @@
     "libphonenumber-js": "^1.x",
     "sane-email-validation": "^3.x",
     "superagent": "^10.x",
-    "svelte": "^4.x",
+    "svelte": "^5.x",
     "zxcvbn": "^4.x"
   }
 }

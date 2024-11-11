@@ -44,22 +44,20 @@
 
 
 <style lang="stylus" global>
-  .radio
-    display flex
-    align-items center
+    .radio
+        display flex
+        align-items center
 
-    .fa-check
-      display none
+        .fa-check
+            display none
 
-    button.active
-      cursor default
-      box-shadow none
+        button.active
+            cursor default
+            box-shadow none
 
-      .fa-check
-        display inline
+            .fa-check
+                display inline
 
-    .btn-outline-secondary:not(.active):not(:hover)
-      background-color white
-
-  // hide shadow spill from sibling button
+        .btn-outline-secondary:not(.active):not(:hover)
+            background-color white
 </style>

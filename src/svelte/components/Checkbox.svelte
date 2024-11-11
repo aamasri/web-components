@@ -64,34 +64,34 @@
 
 
 <style lang="stylus" global>
-  button.checkbox
-    padding-left 0.65em
-    padding-right 0.65em
+    button.checkbox
+        padding-left 0.65em
+        padding-right 0.65em
 
-    .fa-check
-      visibility hidden
-      display inline
+        .fa-check
+            visibility hidden
+            display inline
 
-    &.hasLabel:not(.active)
-      padding-left 1.35em
-      padding-right 1.35em
+        &.hasLabel:not(.active)
+            padding-left 1.35em
+            padding-right 1.35em
 
-      .fa-check
-        display none
+            .fa-check
+                display none
 
-    .spacer
-      display none
-
-    &.active
-      box-shadow none
-
-      .fa-check
-        visibility visible
-
-      &.hasLabel
         .spacer
-          display inline
+            display none
 
-    .btn-outline-secondary:not(.active):not(:hover)
-      background-color white
+        &.active
+            box-shadow none
+
+            .fa-check
+                visibility visible
+
+            &.hasLabel
+                .spacer
+                    display inline
+
+        .btn-outline-secondary:not(.active):not(:hover)
+            background-color white
 </style>

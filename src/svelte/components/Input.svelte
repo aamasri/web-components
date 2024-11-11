@@ -252,40 +252,40 @@
 
 
 <style lang="stylus" global>
-  input.input
-    background-color transparent
-    font-size inherit
-    font-weight inherit
-    line-height inherit
-    padding 0
-    margin 0
-    border 1px solid transparent
-    color inherit
-    outline none
-    transition all 300ms ease-in-out
-    overflow visible
+    input.input
+        background-color transparent
+        font-size inherit
+        font-weight inherit
+        line-height inherit
+        padding 0
+        margin 0
+        border 1px solid transparent
+        color inherit
+        outline none
+        transition all 300ms ease-in-out
+        overflow visible
 
-    &.editable
-      color var(--text-color-editable)
+        &.editable
+            color var(--text-color-editable)
 
-      &:hover
-      &:focus
-        border-bottom 1px solid var(--text-color-editable)
+            &:hover
+            &:focus
+                border-bottom 1px solid var(--text-color-editable)
 
-      &.saving
-        border-bottom 1px solid var(--bs-warning)
+            &.saving
+                border-bottom 1px solid var(--bs-warning)
 
-      &.saved
-        border-bottom 1px solid var(--bs-success)
+            &.saved
+                border-bottom 1px solid var(--bs-success)
 
-      &.error
-        border-bottom 1px solid var(--bs-danger)
+            &.error
+                border-bottom 1px solid var(--bs-danger)
 
-  .input-shadow
-    position absolute
-    font-size inherit
-    font-weight inherit
-    visibility hidden
-    z-index -1
-    white-space nowrap  /* So it doesn't wrap and provides correct width */
+    .input-shadow
+        position absolute
+        font-size inherit
+        font-weight inherit
+        visibility hidden
+        z-index -1
+        white-space nowrap
 </style>

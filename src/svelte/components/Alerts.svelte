@@ -35,7 +35,7 @@
 
 
 <style lang="stylus" global>
-  .alert.inline
-    display inline-block
-    margin-right 1em
+    .alert.inline
+        display inline-block
+        margin-right 1em
 </style>

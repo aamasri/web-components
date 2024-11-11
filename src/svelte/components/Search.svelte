@@ -35,6 +35,6 @@
 
 
 <style lang="stylus" global>
-  .search
-    max-width 20em
+    .search
+        max-width 20em
 </style>

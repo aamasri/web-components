@@ -133,54 +133,54 @@
 
 
 <style lang="stylus">
-  .members
-    :global(svg)
-      height 1em
-      fill var(--text-color)
-
-    ul
-      padding 0
-      margin 0.3em 0 0 0
-      list-style none
-
-    li
-      cursor pointer
-      padding 0
-      margin 0
-      line-height 1.8
-
-      &.selected
-        color var(--text-color-editable)
-
+    .members
         :global(svg)
-          fill var(--text-color-editable)
+            height 1em
+            fill var(--text-color)
 
-      &.add-button
-        color var(--bs-success)
+        ul
+            padding 0
+            margin 0.3em 0 0 0
+            list-style none
 
-        :global(svg)
-          fill var(--bs-success)
-
-    &.mayEdit
-      .list
         li
-          color var(--text-color-editable)
+            cursor pointer
+            padding 0
+            margin 0
+            line-height 1.8
 
-    .options-list
-      border-radius 0.5em
-      position absolute
-      background-color white
-      margin -0.3rem 0 0 3%
-      padding 0.8em
-      box-shadow var(--bs-box-shadow)
-      max-height 200%
-      user-select none
+            &.selected
+                color var(--text-color-editable)
 
-      li:hover
-        background-color var(--bs-light)
+                :global(svg)
+                    fill var(--text-color-editable)
 
-    button
-      :global(svg)
-        fill white
+            &.add-button
+                color var(--bs-success)
+
+                :global(svg)
+                    fill var(--bs-success)
+
+        &.mayEdit
+            .list
+                li
+                    color var(--text-color-editable)
+
+        .options-list
+            border-radius 0.5em
+            position absolute
+            background-color white
+            margin -0.3rem 0 0 3%
+            padding 0.8em
+            box-shadow var(--bs-box-shadow)
+            max-height 200%
+            user-select none
+
+            li:hover
+                background-color var(--bs-light)
+
+        button
+            :global(svg)
+                fill white
 
 </style>

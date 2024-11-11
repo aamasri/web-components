@@ -181,55 +181,54 @@
 
 
 <style lang="stylus" global>
-  .selector-component
-    display: inline-block
+    .selector-component
+        display inline-block
 
-    .lists
-      display flex
-      justify-content start
-      align-items start
+        .lists
+            display flex
+            justify-content start
+            align-items start
 
-      ul
-        border-radius var(--form-border-radius, 0.5rem)
-        border-top-left-radius 0
-        border-top-right-radius 0
-        border 1px solid var(--border-color-light)
-        background-color #fff
-        max-height 30vh
-        overflow auto
-        scrollbar-width thin
-        padding 0
-        margin 0
+            ul
+                border-radius var(--form-border-radius, 0.5rem)
+                border-top-left-radius 0
+                border-top-right-radius 0
+                border 1px solid var(--border-color-light)
+                background-color #fff
+                max-height 30vh
+                overflow auto
+                scrollbar-width thin
+                padding 0
+                margin 0
 
-        li
-          line-height 1.1
-          margin 0
-          padding 0.5rem var(--variable-button-h-padding, 1rem)
-          opacity 0.9
-          cursor pointer
-          list-style none
+                li
+                    line-height 1.1
+                    margin 0
+                    padding 0.5rem var(--variable-button-h-padding, 1rem)
+                    opacity 0.9
+                    cursor pointer
+                    list-style none
 
-          &.selected
-          .selected
-            cursor default
+                    &.selected
+                    .selected
+                        cursor default
 
-          &.selected
-          .selected
-          &:hover
-          :hover
-            opacity 1
-            color var(--bs-success)
+                    &.selected
+                    .selected
+                    &:hover
+                    :hover
+                        opacity 1
+                        color var(--bs-success)
 
-        &:not(.last)
-          li.selected::after
-            content "  ▶"
+                &:not(.last)
+                    li.selected::after
+                        content "  ▶"
 
-        &.subItems
-          border-top-right-radius var(--form-border-radius, 0.5rem)
-          margin 1rem 0 0 -1px
-          right 0
+                &.subItems
+                    border-top-right-radius var(--form-border-radius, 0.5rem)
+                    margin 1rem 0 0 -1px
+                    right 0
 
-          li.selected::after
-            content ""
-
+                    li.selected::after
+                        content ""
 </style>
