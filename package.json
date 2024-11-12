@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.6.8",
-  "versionDescription": "Downgraded svelte to version 4.x for compatibility with sveltekit",
+  "version": "1.6.9",
+  "versionDescription": "Added safeEval.js and dom-utils.js",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",
