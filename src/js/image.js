@@ -154,7 +154,7 @@ export function getImageMaxResolution(img) {
 // Sometimes, we want images to be a certain size visually, regardless of their aspect ratio.
 // We also want responsive images, meaning the image must either fill 100% of the space, or 50%, etc.
 // This function returns the closest preferred width for the desired area
-export function getImageWidth(imageUrl, desiredArea, containerElement, preferredWidths=['100%', '50%', '30%', '25%']) {
+export function getImageWidth(imageUrl, desiredArea, container, preferredWidths=['100%', '50%', '30%', '25%']) {
     return new Promise((resolve, reject) => {
         const img = new Image();
 
@@ -162,13 +162,20 @@ export function getImageWidth(imageUrl, desiredArea, containerElement, preferred
         img.onload = function() {
             const desiredWidthPx = Math.sqrt(desiredArea * img.naturalWidth / img.naturalHeight);
 
+            // allow container selector
+            if (typeof container === 'string')
+                container = document.querySelector(container);
+
+            if (!container instanceof HTMLElement)
+                reject('getImageWidth must be passed a container element or selector');
+
             // get the available width for content inside the container
-            const style = window.getComputedStyle(containerElement);
+            const style = window.getComputedStyle(container);
             const paddingLeft = parseFloat(style.paddingLeft);
             const paddingRight = parseFloat(style.paddingRight);
             const borderLeft = parseFloat(style.borderLeftWidth);
             const borderRight = parseFloat(style.borderRightWidth);
-            const containerWidthPx = containerElement.clientWidth - paddingLeft - paddingRight - borderLeft - borderRight;
+            const containerWidthPx = container.clientWidth - paddingLeft - paddingRight - borderLeft - borderRight;
 
             // get preferred widths in px
             const preferredWidthsPx = [];

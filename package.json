@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.6.6",
-  "versionDescription": "Upgraded packages, removed comments from svelte.",
+  "version": "1.6.7",
+  "versionDescription": "Improved getImageWidth to allow a container selector or element.",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",
