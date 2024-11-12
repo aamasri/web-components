@@ -1,11 +1,11 @@
 const debug = false;
 
-import { parsePhoneNumberFromString, AsYouType } from "libphonenumber-js/max";
-import Ajv from "ajv";  // schema validation
-import ajv_errors from "ajv-errors";
-import isEmail from "sane-email-validation";
-import passwordStrength from "zxcvbn";
-import countries from "../constants/country-data.js";
+import { parsePhoneNumberFromString, AsYouType } from 'libphonenumber-js/max';
+import Ajv from 'ajv';  // schema validation
+import ajv_errors from 'ajv-errors';
+import isEmail from 'sane-email-validation';
+import passwordStrength from 'zxcvbn';
+import countries from '../constants/country-data.js';
 
 
 

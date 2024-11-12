@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.6.7",
-  "versionDescription": "Improved getImageWidth to allow a container selector or element.",
+  "version": "1.6.8",
+  "versionDescription": "Downgraded svelte to version 4.x for compatibility with sveltekit",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",
@@ -35,7 +35,7 @@
     "libphonenumber-js": "^1.x",
     "sane-email-validation": "^3.x",
     "superagent": "^10.x",
-    "svelte": "^5.x",
+    "svelte": "^4.x",
     "zxcvbn": "^4.x"
   }
 }
