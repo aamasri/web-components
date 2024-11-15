@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.6.9",
-  "versionDescription": "Added safeEval.js and dom-utils.js",
+  "version": "1.6.10",
+  "versionDescription": "Change Multiselect class to .multiselect",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",

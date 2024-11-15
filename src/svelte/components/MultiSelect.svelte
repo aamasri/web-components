@@ -97,7 +97,7 @@
 </script>
 
 
-<div class="members" class:mayEdit bind:this={thisElement}>
+<div class="multiselect" class:mayEdit bind:this={thisElement}>
     <h2>{@html icon} {name}</h2>
 
     <div on:focus={() => showOptionsList = true} on:blur={() => showOptionsList = false} tabindex="0">
