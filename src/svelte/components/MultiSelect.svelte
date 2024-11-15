@@ -133,7 +133,7 @@
 
 
 <style lang="stylus">
-    .members
+    .multiselect
         :global(svg)
             height 1em
             fill var(--text-color)
