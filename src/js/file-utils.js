@@ -266,14 +266,14 @@ export function formatFileSize(bytes) {
  * Get the filesize of a file by HEAD request (typically served directly by NGINX)
  *
  * @param {string} url - input url of file
- * @return string|null
+ * @return int|null
  */
 export async function getFileSize(url) {
 	try {
 		const response = await fetch(url, { method: 'HEAD' })
 		if (response.ok) {
 			const fileSize = response.headers.get('Content-Length');
-			return fileSize ? formatFileSize(fileSize) : null;
+			return fileSize ? parseInt(fileSize) : null;
 		} else
 			console.error(`getFileSize failed to access the filesize for ${url}`);
 	} catch (error) {
