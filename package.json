@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.8.0",
-  "versionDescription": "Replaced fn writeFilesize with getFileSize. Added fn relativeUrl.",
+  "version": "2.0.0",
+  "versionDescription": "Pushing major version due to breaking changes.",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",
