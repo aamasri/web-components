@@ -9,6 +9,20 @@ const responsiveImages = [ 'jpg', 'png', 'gif', 'webp' ];
 
 
 
+
+/**
+ * strips the https://domain.com from a url
+ *
+ * @param {string} absoluteUrl - e.g. https://dev.cloud49.net/uploads/cloud49_dev/proposals/36/c49.jpg
+ * @return string - i.e. /uploads/cloud49_dev/proposals/36/c49.jpg
+ */
+function relativeUrl(absoluteUrl) {
+	const urlObject = new URL(absoluteUrl);
+	return urlObject.href.replace(urlObject.origin, '');
+}
+
+
+
 /**
  * Returns all possible variants of the specified url
  *
@@ -63,7 +77,7 @@ export function getRootUrl(url) {
 
 
 /**
- * returns a php-inspired path-info object { path: .., name: .., extension: .., query: .., hash: .. }
+ * returns a php-inspired path-info object { path: ..., name: ..., extension: ..., query: ..., hash: ... }
  *
  * @param {string} url - input url or file
  * @param {(''|'path'|'name'|'extension'|'query'|'hash')} flag - when flag present return a string (i.e. just that path part)
@@ -250,23 +264,20 @@ export function formatFileSize(bytes) {
 
 /**
  * Get the filesize of a file by HEAD request (typically served directly by NGINX)
- * Write the filesize to a container element
  *
- * @param {string} file - input url of file
- * @param {HTMLElement} container - where to write the filesize
- * @return void
+ * @param {string} url - input url of file
+ * @return string|null
  */
-export function writeFilesize(file, container) {
-	// get filesize by doing an HTTP head request using ajax
-	const xhr = new XMLHttpRequest();
-	xhr.open('HEAD', getRootUrl(file), true);
-	xhr.onreadystatechange = function () {
-		if (xhr.readyState === 4)
-			if (xhr.status === 200) {
-				const size = parseInt(xhr.getResponseHeader('Content-Length'));
-				console.log(file + ' filesize', size);
-				container.textContent = formatFileSize(size);
-			}
-	};
-	xhr.send(null);
+async function getFileSize(url) {
+	try {
+		const response = await fetch(url, { method: 'HEAD' })
+		if (response.ok) {
+			const fileSize = response.headers.get('Content-Length');
+			return fileSize ? formatFileSize(fileSize) : null;
+		} else
+			console.error(`getFileSize failed to access the filesize for ${url}`);
+	} catch (error) {
+		console.error(`getFileSize failed with:`, error);
+		return null;
+	}
 }

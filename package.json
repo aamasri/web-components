@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "1.6.11",
-  "versionDescription": "Whoops - change Multiselect class to .multiselect",
+  "version": "1.8.0",
+  "versionDescription": "Replaced fn writeFilesize with getFileSize. Added fn relativeUrl.",
   "type": "module",
   "scripts": {
     "upgrade": "npm upgrade; npm outdated;",
