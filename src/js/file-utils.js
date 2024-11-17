@@ -16,7 +16,7 @@ const responsiveImages = [ 'jpg', 'png', 'gif', 'webp' ];
  * @param {string} absoluteUrl - e.g. https://dev.cloud49.net/uploads/cloud49_dev/proposals/36/c49.jpg
  * @return string - i.e. /uploads/cloud49_dev/proposals/36/c49.jpg
  */
-function relativeUrl(absoluteUrl) {
+export function relativeUrl(absoluteUrl) {
 	const urlObject = new URL(absoluteUrl);
 	return urlObject.href.replace(urlObject.origin, '');
 }
@@ -268,7 +268,7 @@ export function formatFileSize(bytes) {
  * @param {string} url - input url of file
  * @return string|null
  */
-async function getFileSize(url) {
+export async function getFileSize(url) {
 	try {
 		const response = await fetch(url, { method: 'HEAD' })
 		if (response.ok) {
