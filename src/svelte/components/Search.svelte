@@ -23,6 +23,7 @@
     <span class="input-group-text"><i class="fa-solid fa-search"></i></span>
     <input type="text"
            class="form-control"
+           name="search"
            placeholder="{placeholder}"
            bind:value="{searchString}"
            on:input={dispatchChange} >
