@@ -108,6 +108,9 @@ export async function upgradeThumbnails() {
         // use the image load event to upgrade the lo-res image
         tempImg.addEventListener('load', function() {
             const targetImg = document.querySelector(`.upgradeMe.${this.id}`);
+            if (targetImg === null)
+                return;     // by the time the image has loaded the element may no longer exist!
+
             if (targetImg.nodeName === 'IMG')
                 targetImg.src = this.src;
             else
