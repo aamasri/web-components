@@ -99,11 +99,6 @@ export async function upgradeThumbnails() {
 
         // create a tiny temporary hi-res image with a load handler to replace the initial lo-res image
         const tempImg = new Image();
-        tempImg.id = `backgroundLoadingImage-${imageCount}`;
-        tempImg.src = replacementUrl;
-        tempImg.style.width = '1px';
-        tempImg.style.visibility = 'hidden';
-        tempImg.alt = '';
 
         // use the image load event to upgrade the lo-res image
         tempImg.addEventListener('load', function() {
@@ -120,6 +115,15 @@ export async function upgradeThumbnails() {
             targetImg.classList.remove(...Array.from(targetImg.classList).filter(className => className.match(/backgroundLoadingImage\S+|upgradeMe/gi)));
             this.remove(); // remove temp image
         });
+
+        tempImg.id = `backgroundLoadingImage-${imageCount}`;
+        if (img.nodeName === 'IMG')
+            tempImg.src = replacementUrl;
+        else
+            tempImg.style.backgroundImage = `url('${replacementUrl}')`;
+        tempImg.style.width = '1px';
+        tempImg.style.visibility = 'hidden';
+        tempImg.alt = '';
 
         document.body.appendChild(tempImg);
     });
