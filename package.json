@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "2.0.7",
-  "versionDescription": "fixed bug in image.upgradeThumbnails()",
+  "version": "2.0.8",
+  "versionDescription": "upgraded packages",
   "type": "module",
   "scripts": {
     "update": "npm update; npm outdated;",
