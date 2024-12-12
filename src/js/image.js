@@ -78,14 +78,13 @@ export async function upgradeThumbnails() {
     const { getRootUrl } = await import('./file-utils.js');
 
     let imageCount = 0;
+    const isImage = img.nodeName === 'IMG';
     upgradeableImages.forEach(img => {
-        const sourceUrl = img.nodeName === 'IMG'
-            ? img.src
-            : getComputedStyle(img).backgroundImage.replace('url("', '').replace('")', '');
+        const sourceUrl = isImage ? img.src : getComputedStyle(img).backgroundImage.replace('url("', '').replace('")', '');
 
         // upgrade if the thumbnail is not big enough (or if we don't know yet)
-        const width = img.nodeName === 'IMG' ? img.width : img.offsetWidth;
-        if (width && (width <= 320))
+        const width = isImage ? img.width : img.offsetWidth;
+        if (width && (width <= 160))
             return; // don't upgrade a thumbnail confined to a small size
 
         const replacementUrl = getRootUrl(sourceUrl); // determine the url of the high-quality image
@@ -93,18 +92,24 @@ export async function upgradeThumbnails() {
             return; // already high-res - next image
 
         if (img.hasAttribute('srcset') && webpSupported)
-            return; // when there's a srcset the browser should ignore the src attribute - next image
+            return; // when there's a srcset, the browser should ignore the src attribute - next image
 
         img.classList.add(`backgroundLoadingImage-${++imageCount}`); // mark the lo-res image
 
         // create a tiny temporary hi-res image with a load handler to replace the initial lo-res image
         const tempImg = new Image();
+        tempImg.id = `backgroundLoadingImage-${imageCount}`;
+        tempImg.src = replacementUrl;
+        tempImg.style.width = '1px';
+        tempImg.style.visibility = 'hidden';
+        tempImg.alt = '';
 
         // use the image load event to upgrade the lo-res image
         tempImg.addEventListener('load', function() {
+            console.log('image loaded:', this.src);
             const targetImg = document.querySelector(`.upgradeMe.${this.id}`);
             if (targetImg === null)
-                return;     // by the time the image has loaded the element may no longer exist!
+                return;     // by the time the image has loaded, the element may no longer exist!
 
             if (targetImg.nodeName === 'IMG')
                 targetImg.src = this.src;
@@ -116,16 +121,7 @@ export async function upgradeThumbnails() {
             this.remove(); // remove temp image
         });
 
-        tempImg.id = `backgroundLoadingImage-${imageCount}`;
-        if (img.nodeName === 'IMG')
-            tempImg.src = replacementUrl;
-        else
-            tempImg.style.backgroundImage = `url('${replacementUrl}')`;
-        tempImg.style.width = '1px';
-        tempImg.style.visibility = 'hidden';
-        tempImg.alt = '';
-
-        document.body.appendChild(tempImg);
+        document.body.appendChild(tempImg);     // finally, add the image to the DOM to trigger loading
     });
 }
 

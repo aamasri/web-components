@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "2.0.5",
-  "versionDescription": "Updated image.upgradeThumbnails() to work with background images",
+  "version": "2.0.6",
+  "versionDescription": "Updated image.upgradeThumbnails() to deliver higher-definition",
   "type": "module",
   "scripts": {
     "update": "npm update; npm outdated;",
