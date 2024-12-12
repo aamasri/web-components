@@ -78,8 +78,8 @@ export async function upgradeThumbnails() {
     const { getRootUrl } = await import('./file-utils.js');
 
     let imageCount = 0;
-    const isImage = img.nodeName === 'IMG';
     upgradeableImages.forEach(img => {
+        const isImage = img.nodeName === 'IMG';
         const sourceUrl = isImage ? img.src : getComputedStyle(img).backgroundImage.replace('url("', '').replace('")', '');
 
         // upgrade if the thumbnail is not big enough (or if we don't know yet)

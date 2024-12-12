@@ -1,7 +1,7 @@
 {
   "name": "@aamasri/web-components",
-  "version": "2.0.6",
-  "versionDescription": "Updated image.upgradeThumbnails() to deliver higher-definition",
+  "version": "2.0.7",
+  "versionDescription": "fixed bug in image.upgradeThumbnails()",
   "type": "module",
   "scripts": {
     "update": "npm update; npm outdated;",
