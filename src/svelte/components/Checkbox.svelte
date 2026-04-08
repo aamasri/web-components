@@ -58,7 +58,7 @@
         on:touchstart={handleEvent}
         on:mouseup={handleEvent}
         on:touchend={handleEvent}
-        on:contextmenu|preventDefault={() => dispatch('hold')}>
+        oncontextmenu={(e) => { e.preventDefault(); dispatch('hold'); }}>
     <i class="fa-solid fa-check"></i><i class="spacer"> &nbsp; </i>{@html label }
 </button>
 

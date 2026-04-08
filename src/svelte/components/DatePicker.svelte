@@ -43,9 +43,9 @@
     }
 
     function clamp(d, min, max) {
-        if (browseDate > max) {
+        if (d > max) {
             return cloneDate(max);
-        } else if (browseDate < min) {
+        } else if (d < min) {
             return cloneDate(min);
         } else {
             return cloneDate(d);
@@ -171,13 +171,13 @@
             shiftKeydown(e);
             return;
         } else if (e.key === 'ArrowUp') {
-            setMonth(browseDate.getFullYear() - 1);
+            setMonth(browseDate.getMonth() - 1);
         } else if (e.key === 'ArrowDown') {
-            setMonth(browseDate.getFullYear() + 1);
+            setMonth(browseDate.getMonth() + 1);
         } else if (e.key === 'ArrowLeft') {
-            setMonth(browseDate.getFullYear() - 1);
+            setMonth(browseDate.getMonth() - 1);
         } else if (e.key === 'ArrowRight') {
-            setMonth(browseDate.getFullYear() + 1);
+            setMonth(browseDate.getMonth() + 1);
         } else {
             shiftKeydown(e);
             return;
